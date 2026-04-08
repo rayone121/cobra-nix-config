@@ -150,7 +150,7 @@ ok "Config patched"
 #  Step 7: Run disko (partition + format + mount)
 # ============================================================
 info "Running disko — partitioning and formatting ${DISK}..."
-nix run github:nix-community/disko -- --mode disko "$CONFIG_DIR/hosts/cobra/disk.nix"
+nix --extra-experimental-features "nix-command flakes" run github:nix-community/disko -- --mode disko "$CONFIG_DIR/hosts/cobra/disk.nix"
 ok "Disko complete — disk partitioned, formatted, and mounted at /mnt"
 
 # ============================================================

@@ -64,7 +64,7 @@
     grim
     slurp
     pamixer
-    pavucontrol
+    pulsemixer        # TUI volume mixer
 
     # App launcher (Spotlight-like)
     fuzzel
@@ -77,6 +77,9 @@
 
     # File manager
     nautilus
+
+    # TUI tools
+    bluetuith         # TUI bluetooth manager
 
     # Browser
     firefox

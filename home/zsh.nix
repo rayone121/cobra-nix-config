@@ -24,6 +24,9 @@
       "..." = "z ../..";
       rebuild = "sudo nixos-rebuild switch --flake ~/.config/nixos#INSTALLER_HOSTNAME";
       update = "nix flake update --flake ~/.config/nixos";
+      wifi = "nmtui";
+      vol = "pulsemixer";
+      bt = "bluetuith";
     };
 
     # Zinit setup

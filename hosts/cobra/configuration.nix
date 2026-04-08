@@ -95,8 +95,13 @@
     htop
     killall
     brightnessctl
-    networkmanagerapplet
   ];
+
+  # ---------- Bluetooth ----------
+  hardware.bluetooth = {
+    enable = true;
+    powerOnBoot = true;
+  };
 
   # ---------- Btrfs maintenance ----------
   services.btrfs.autoScrub = {

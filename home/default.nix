@@ -48,6 +48,7 @@
 
   programs.git = {
     enable = true;
+    signing.format = null;
     settings.user = {
       name = "INSTALLER_GIT_NAME";
       email = "INSTALLER_GIT_EMAIL";
@@ -100,6 +101,6 @@
 
   home.sessionPath = [ "$HOME/.local/bin" ];
 
-  home.stateVersion = "24.11";
+  home.stateVersion = "25.05";
   programs.home-manager.enable = true;
 }

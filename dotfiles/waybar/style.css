@@ -46,6 +46,7 @@ window#waybar.top-bar,
   padding: 0 12px;
 }
 
+#bluetooth,
 #pulseaudio,
 #network,
 #battery,

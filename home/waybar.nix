@@ -16,7 +16,7 @@
         margin-right = 8;
         modules-left = [ "custom/apple" "niri/workspaces" ];
         modules-center = [ "clock" ];
-        modules-right = [ "pulseaudio" "network" "battery" "tray" ];
+        modules-right = [ "bluetooth" "pulseaudio" "network" "battery" "tray" ];
 
         "custom/apple" = {
           format = " ";
@@ -43,6 +43,7 @@
             default = [ " " " " " " ];
           };
           on-click = "pamixer -t";
+          on-click-right = "kitty --title pulsemixer -e pulsemixer";
           on-scroll-up = "pamixer -i 2";
           on-scroll-down = "pamixer -d 2";
         };
@@ -52,6 +53,17 @@
           format-ethernet = "󰈀  {ipaddr}";
           format-disconnected = "󰖪  offline";
           tooltip-format = "{ifname}: {ipaddr}/{cidr}";
+          on-click = "kitty --title nmtui -e nmtui";
+        };
+
+        bluetooth = {
+          format = "󰂯 {status}";
+          format-connected = "󰂱 {device_alias}";
+          format-disabled = "󰂲";
+          on-click = "kitty --title bluetuith -e bluetuith";
+          tooltip-format = "{controller_alias}\t{controller_address}";
+          tooltip-format-connected = "{controller_alias}\t{controller_address}\n\n{device_enumerate}";
+          tooltip-format-enumerate-connected = "{device_alias}\t{device_address}";
         };
 
         battery = {

@@ -24,8 +24,8 @@
       cd = "z";
       ".." = "z ..";
       "..." = "z ../..";
-      rebuild = "sudo nixos-rebuild switch --flake .#INSTALLER_HOSTNAME";
-      update = "nix flake update";
+      rebuild = "sudo nixos-rebuild switch --flake ~/.config/nixos#INSTALLER_HOSTNAME";
+      update = "nix flake update --flake ~/.config/nixos";
     };
 
     # Zinit setup — loaded via initExtra since there's no native HM module

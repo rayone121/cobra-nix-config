@@ -82,14 +82,16 @@ It then partitions with disko, generates hardware config, patches all placeholde
 ## Post-Install
 
 ```bash
+# Config lives at ~/.config/nixos
+
 # Rebuild after editing config
 rebuild
 
 # Update flake inputs
 update
 
-# Set a wallpaper
-swww img ~/path/to/wallpaper.jpg
+# Set a wallpaper + generate theme
+wall ~/Pictures/wallpaper.jpg
 ```
 
 ## Key Bindings

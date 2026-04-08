@@ -256,12 +256,20 @@ fi
 ok "Hardware config generated"
 
 # ============================================================
-#  Step 11: Copy config to target
+#  Step 11: Copy config to target (user home, not /etc/nixos)
 # ============================================================
-info "Copying config to ${INSTALL_DIR}/etc/nixos..."
-mkdir -p "${INSTALL_DIR}/etc/nixos"
-cp -r "$CONFIG_DIR"/. "${INSTALL_DIR}/etc/nixos/"
-ok "Config installed"
+USER_CONFIG_DIR="${INSTALL_DIR}/home/${USERNAME}/.config/nixos"
+info "Copying config to ${USER_CONFIG_DIR}..."
+mkdir -p "${USER_CONFIG_DIR}"
+cp -r "$CONFIG_DIR"/. "${USER_CONFIG_DIR}/"
+
+# Initialize git so flake can find files
+git -C "${USER_CONFIG_DIR}" init -q
+git -C "${USER_CONFIG_DIR}" add -A
+git -C "${USER_CONFIG_DIR}" commit -q -m "Initial config"
+
+# Set ownership (will be applied after install via nixos-enter)
+ok "Config installed to ~/.config/nixos"
 
 # ============================================================
 #  Step 12: Install NixOS
@@ -271,7 +279,7 @@ echo -e "  ${DIM}─────────────────────
 echo ""
 info "Installing NixOS (this will take a while)..."
 echo ""
-nixos-install --flake "${INSTALL_DIR}/etc/nixos#${HOSTNAME}" --no-root-passwd
+nixos-install --flake "${USER_CONFIG_DIR}#${HOSTNAME}" --no-root-passwd
 
 # ============================================================
 #  Step 13: Set user password
@@ -279,6 +287,9 @@ nixos-install --flake "${INSTALL_DIR}/etc/nixos#${HOSTNAME}" --no-root-passwd
 echo ""
 info "Set password for user '${USERNAME}':"
 nixos-enter --root "$INSTALL_DIR" -- passwd "$USERNAME"
+
+# Fix ownership of config dir
+nixos-enter --root "$INSTALL_DIR" -- chown -R "$USERNAME":"users" "/home/${USERNAME}/.config/nixos"
 
 # ============================================================
 #  Done!
@@ -324,7 +335,7 @@ echo -e "  CPU:       ${BOLD}${CPU_UCODE}${NC}"
 echo -e "  FS:        ${BOLD}btrfs${NC} ${DIM}(@, @home, @nix, @log, @snapshots)${NC}"
 echo -e "  Boot:      ${BOLD}Limine${NC} ${DIM}(Catppuccin Mocha)${NC}"
 echo -e "  Desktop:   ${BOLD}Niri${NC} ${DIM}(macOS-style)${NC}"
-echo -e "  Config:    ${BOLD}/etc/nixos${NC}"
+echo -e "  Config:    ${BOLD}~/.config/nixos${NC}"
 echo ""
 echo -e "  ${DIM}────────────────────────────────────${NC}"
 echo ""

@@ -24,7 +24,7 @@
       cd = "z";
       ".." = "z ..";
       "..." = "z ../..";
-      rebuild = "sudo nixos-rebuild switch --flake .#cobra";
+      rebuild = "sudo nixos-rebuild switch --flake .#INSTALLER_HOSTNAME";
       update = "nix flake update";
     };
 

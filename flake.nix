@@ -19,7 +19,7 @@
       pkgs = nixpkgs.legacyPackages.${system};
     in
     {
-      nixosConfigurations.cobra = nixpkgs.lib.nixosSystem {
+      nixosConfigurations.INSTALLER_HOSTNAME = nixpkgs.lib.nixosSystem {
         inherit system;
         modules = [
           disko.nixosModules.disko
@@ -29,7 +29,7 @@
           {
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.raymond = import ./home/default.nix;
+            home-manager.users.INSTALLER_USERNAME = import ./home/default.nix;
           }
         ];
       };

@@ -8,8 +8,8 @@
     ./theme.nix
   ];
 
-  home.username = "raymond";
-  home.homeDirectory = "/home/raymond";
+  home.username = "INSTALLER_USERNAME";
+  home.homeDirectory = "/home/INSTALLER_USERNAME";
 
   # ---------- CLI Tools ----------
   programs.bat = {
@@ -49,7 +49,7 @@
   programs.git = {
     enable = true;
     # TODO: set your name/email
-    # userName = "Raymond";
+    # userName = "INSTALLER_DISPLAYNAME";
     # userEmail = "you@example.com";
   };
 

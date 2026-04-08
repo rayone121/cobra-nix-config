@@ -135,25 +135,14 @@ info "Personalizing config for ${BOLD}${USERNAME}@${HOSTNAME}${NC}..."
 # -- Disk --
 sed -i "s|device = \"/dev/nvme0n1\";|device = \"${DISK}\";|" "$CONFIG_DIR/hosts/cobra/disk.nix"
 
-# -- Username (all nix files) --
-find "$CONFIG_DIR" -name '*.nix' -exec sed -i "s/raymond/${USERNAME}/g" {} +
-
-# -- Capitalize for display name --
+# -- Username --
 USERNAME_CAP="$(echo "${USERNAME:0:1}" | tr '[:lower:]' '[:upper:]')${USERNAME:1}"
-sed -i "s/description = \"Raymond\"/description = \"${USERNAME_CAP}\"/" "$CONFIG_DIR/hosts/cobra/configuration.nix"
-sed -i "s/# userName = \"Raymond\"/# userName = \"${USERNAME_CAP}\"/" "$CONFIG_DIR/home/default.nix"
+find "$CONFIG_DIR" -name '*.nix' -exec sed -i "s/INSTALLER_USERNAME/${USERNAME}/g" {} +
+find "$CONFIG_DIR" -name '*.nix' -exec sed -i "s/INSTALLER_DISPLAYNAME/${USERNAME_CAP}/g" {} +
 
-# -- Hostname --
-sed -i "s/networking.hostName = \"cobra\"/networking.hostName = \"${HOSTNAME}\"/" "$CONFIG_DIR/hosts/cobra/configuration.nix"
-
-# -- Timezone --
-sed -i "s|time.timeZone = \"America/New_York\"|time.timeZone = \"${TIMEZONE}\"|" "$CONFIG_DIR/hosts/cobra/configuration.nix"
-
-# -- Rebuild alias --
-sed -i "s/rebuild = \"sudo nixos-rebuild switch --flake .#cobra\"/rebuild = \"sudo nixos-rebuild switch --flake .#${HOSTNAME}\"/" "$CONFIG_DIR/home/zsh.nix"
-
-# -- Flake host name --
-sed -i "s/nixosConfigurations\.cobra/nixosConfigurations.${HOSTNAME}/" "$CONFIG_DIR/flake.nix"
+# -- Hostname + Timezone (all nix files) --
+find "$CONFIG_DIR" -name '*.nix' -exec sed -i "s/INSTALLER_HOSTNAME/${HOSTNAME}/g" {} +
+find "$CONFIG_DIR" -name '*.nix' -exec sed -i "s|INSTALLER_TIMEZONE|${TIMEZONE}|g" {} +
 
 ok "Config patched"
 

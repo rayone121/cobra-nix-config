@@ -55,6 +55,17 @@
     };
   };
 
+  # ---------- Firefox ----------
+  programs.firefox = {
+    enable = true;
+    profiles.default = {
+      isDefault = true;
+      settings = {
+        "browser.toolbars.bookmarks.visibility" = "newtab";
+      };
+    };
+  };
+
   # ---------- Packages ----------
   home.packages = with pkgs; [
     # Wayland / Niri utilities
@@ -64,9 +75,9 @@
     grim
     slurp
     pamixer
-    pulsemixer        # TUI volume mixer
+    pulsemixer
 
-    # App launcher (Spotlight-like)
+    # App launcher
     fuzzel
 
     # Bar
@@ -82,10 +93,7 @@
     nautilus
 
     # TUI tools
-    bluetuith         # TUI bluetooth manager
-
-    # Browser
-    firefox
+    bluetuith
 
     # Theming
     matugen

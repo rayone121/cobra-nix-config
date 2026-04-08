@@ -37,7 +37,10 @@
 
   # ---------- Matugen (Material You from wallpaper) ----------
   xdg.configFile."matugen/config.toml".source = ../dotfiles/matugen/config.toml;
-  xdg.configFile."matugen/templates".source = ../dotfiles/matugen/templates;
+  xdg.configFile."matugen/templates" = {
+    source = ../dotfiles/matugen/templates;
+    recursive = true;
+  };
 
   # ---------- Dotfiles (no HM modules — pure dotfile approach) ----------
   xdg.configFile."fuzzel/fuzzel.ini".source = ../dotfiles/fuzzel/fuzzel.ini;

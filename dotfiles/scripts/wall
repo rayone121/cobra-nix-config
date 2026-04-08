@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# wall — set wallpaper and regenerate theme from its colors
+# Usage: wall ~/Pictures/wallpaper.jpg
+set -euo pipefail
+
+if [[ $# -eq 0 ]]; then
+    echo "Usage: wall <image>"
+    echo "Sets wallpaper and generates Material You theme from it."
+    exit 1
+fi
+
+IMAGE="$(realpath "$1")"
+[[ -f "$IMAGE" ]] || { echo "File not found: $IMAGE"; exit 1; }
+
+echo "Generating theme from: $IMAGE"
+matugen image "$IMAGE" -m dark
+echo "Done! Theme applied."

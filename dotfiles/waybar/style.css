@@ -1,3 +1,6 @@
+/* Import matugen-generated colors (fallback: hardcoded colors still work) */
+@import "colors.css";
+
 /* ===== Global ===== */
 * {
   font-family: "Inter", "JetBrainsMono Nerd Font", sans-serif;

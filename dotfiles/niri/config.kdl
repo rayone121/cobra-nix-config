@@ -1,3 +1,6 @@
+// Import matugen-generated colors (overrides border colors)
+include "./colors.kdl"
+
 // ---------- Input ----------
 input {
     keyboard {

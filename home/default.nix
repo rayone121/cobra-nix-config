@@ -76,6 +76,9 @@
     # File manager
     nautilus
 
+    # Theming
+    matugen
+
     # Misc CLI
     ripgrep
     fd
@@ -84,6 +87,14 @@
     btop
     fastfetch
   ];
+
+  # ---------- Scripts ----------
+  home.file.".local/bin/wall" = {
+    source = ../dotfiles/scripts/wall;
+    executable = true;
+  };
+
+  home.sessionPath = [ "$HOME/.local/bin" ];
 
   home.stateVersion = "24.11";
   programs.home-manager.enable = true;

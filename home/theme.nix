@@ -31,6 +31,10 @@
     gtk.enable = true;
   };
 
+  # ---------- Matugen (Material You from wallpaper) ----------
+  xdg.configFile."matugen/config.toml".source = ../dotfiles/matugen/config.toml;
+  xdg.configFile."matugen/templates".source = ../dotfiles/matugen/templates;
+
   # ---------- Dotfiles ----------
   xdg.configFile."fuzzel/fuzzel.ini".source = ../dotfiles/fuzzel/fuzzel.ini;
   xdg.configFile."dunst/dunstrc".source = ../dotfiles/dunst/dunstrc;

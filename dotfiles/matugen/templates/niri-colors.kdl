@@ -1,0 +1,9 @@
+layout {
+    border {
+        active-color "@{primary.dark.hex}"
+        inactive-color "@{outline_variant.dark.hex}"
+    }
+    shadow {
+        color "@{shadow.dark.hex}88"
+    }
+}

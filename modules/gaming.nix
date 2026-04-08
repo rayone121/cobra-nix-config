@@ -43,20 +43,18 @@
     mangojuice        # GUI for MangoHud config
 
     # Proton management
-    protonup-qt       # GUI to install/manage GE-Proton
-    protonplus        # Alternative Proton manager
+    protonplus
 
     # Game launchers
-    lutris            # Multi-platform game manager (GOG, Epic, etc.)
-    heroic            # Epic / GOG / Amazon launcher
+    lutris
+    heroic
 
     # Wine
     wineWow64Packages.stable
     winetricks
 
     # Utilities
-    scanmem           # Memory scanner (gameconqueror removed from nixpkgs)
-    vulkan-tools      # vulkaninfo, etc.
+    vulkan-tools
   ];
 
   # ---------- Hardware support ----------

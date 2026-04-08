@@ -37,7 +37,34 @@ command -v nix   >/dev/null 2>&1 || err "Nix not found. Are you booted into the 
 command -v git   >/dev/null 2>&1 || nix-env -iA nixos.git
 
 # ============================================================
-#  Step 2: Select disk
+#  Step 2: User details
+# ============================================================
+read -rp "$(echo -e "${CYAN}Username: ${NC}")" USERNAME
+[[ -n "$USERNAME" ]] || err "Username cannot be empty."
+[[ "$USERNAME" =~ ^[a-z_][a-z0-9_-]*$ ]] || err "Invalid username. Use lowercase letters, numbers, hyphens, underscores."
+
+read -rp "$(echo -e "${CYAN}Hostname [cobra]: ${NC}")" HOSTNAME
+HOSTNAME="${HOSTNAME:-cobra}"
+[[ "$HOSTNAME" =~ ^[a-zA-Z0-9-]+$ ]] || err "Invalid hostname."
+
+read -rp "$(echo -e "${CYAN}Timezone [America/New_York]: ${NC}")" TIMEZONE
+TIMEZONE="${TIMEZONE:-America/New_York}"
+
+# Validate timezone
+if [[ ! -f "/usr/share/zoneinfo/${TIMEZONE}" ]] && [[ ! -f "/etc/zoneinfo/${TIMEZONE}" ]]; then
+    warn "Cannot verify timezone '${TIMEZONE}' — make sure it's valid (e.g. America/Chicago, Europe/London)"
+    read -rp "$(echo -e "${CYAN}Continue anyway? [y/N]: ${NC}")" TZ_CONFIRM
+    [[ "$TZ_CONFIRM" =~ ^[yY]$ ]] || err "Aborted."
+fi
+
+echo ""
+info "User:     ${BOLD}${USERNAME}${NC}"
+info "Hostname: ${BOLD}${HOSTNAME}${NC}"
+info "Timezone: ${BOLD}${TIMEZONE}${NC}"
+echo ""
+
+# ============================================================
+#  Step 3: Select disk
 # ============================================================
 info "Available disks:"
 echo ""
@@ -58,7 +85,7 @@ read -rp "$(echo -e "${RED}Type 'yes' to confirm: ${NC}")" CONFIRM
 [[ "$CONFIRM" == "yes" ]] || err "Aborted."
 
 # ============================================================
-#  Step 3: Detect CPU vendor
+#  Step 4: Detect CPU vendor
 # ============================================================
 CPU_VENDOR=$(grep -m1 'vendor_id' /proc/cpuinfo | awk '{print $3}')
 if [[ "$CPU_VENDOR" == "AuthenticAMD" ]]; then
@@ -76,7 +103,7 @@ else
 fi
 
 # ============================================================
-#  Step 4: Clone config
+#  Step 5: Clone config
 # ============================================================
 info "Cloning config..."
 if [[ -d "$CONFIG_DIR" ]]; then
@@ -101,21 +128,44 @@ else
 fi
 
 # ============================================================
-#  Step 5: Patch disk device in disko config
+#  Step 6: Patch config with user details
 # ============================================================
-info "Setting target disk to ${DISK} in disko config..."
+info "Personalizing config for ${BOLD}${USERNAME}@${HOSTNAME}${NC}..."
+
+# -- Disk --
 sed -i "s|device = \"/dev/nvme0n1\";|device = \"${DISK}\";|" "$CONFIG_DIR/hosts/cobra/disk.nix"
-ok "disk.nix patched"
+
+# -- Username (all nix files) --
+find "$CONFIG_DIR" -name '*.nix' -exec sed -i "s/raymond/${USERNAME}/g" {} +
+
+# -- Capitalize for display name --
+USERNAME_CAP="$(echo "${USERNAME:0:1}" | tr '[:lower:]' '[:upper:]')${USERNAME:1}"
+sed -i "s/description = \"Raymond\"/description = \"${USERNAME_CAP}\"/" "$CONFIG_DIR/hosts/cobra/configuration.nix"
+sed -i "s/# userName = \"Raymond\"/# userName = \"${USERNAME_CAP}\"/" "$CONFIG_DIR/home/default.nix"
+
+# -- Hostname --
+sed -i "s/networking.hostName = \"cobra\"/networking.hostName = \"${HOSTNAME}\"/" "$CONFIG_DIR/hosts/cobra/configuration.nix"
+
+# -- Timezone --
+sed -i "s|time.timeZone = \"America/New_York\"|time.timeZone = \"${TIMEZONE}\"|" "$CONFIG_DIR/hosts/cobra/configuration.nix"
+
+# -- Rebuild alias --
+sed -i "s/rebuild = \"sudo nixos-rebuild switch --flake .#cobra\"/rebuild = \"sudo nixos-rebuild switch --flake .#${HOSTNAME}\"/" "$CONFIG_DIR/home/zsh.nix"
+
+# -- Flake host name --
+sed -i "s/nixosConfigurations\.cobra/nixosConfigurations.${HOSTNAME}/" "$CONFIG_DIR/flake.nix"
+
+ok "Config patched"
 
 # ============================================================
-#  Step 6: Run disko (partition + format + mount)
+#  Step 7: Run disko (partition + format + mount)
 # ============================================================
 info "Running disko — partitioning and formatting ${DISK}..."
 nix run github:nix-community/disko -- --mode disko "$CONFIG_DIR/hosts/cobra/disk.nix"
 ok "Disko complete — disk partitioned, formatted, and mounted at /mnt"
 
 # ============================================================
-#  Step 7: Generate hardware config
+#  Step 8: Generate hardware config
 # ============================================================
 info "Generating hardware configuration..."
 nixos-generate-config --no-filesystems --root "$INSTALL_DIR" --dir /tmp/hw-config
@@ -139,7 +189,7 @@ fi
 ok "Hardware config generated and patched"
 
 # ============================================================
-#  Step 8: Copy config to target
+#  Step 9: Copy config to target
 # ============================================================
 info "Copying config to ${INSTALL_DIR}/etc/nixos..."
 mkdir -p "${INSTALL_DIR}/etc/nixos"
@@ -147,27 +197,30 @@ cp -r "$CONFIG_DIR"/. "${INSTALL_DIR}/etc/nixos/"
 ok "Config installed"
 
 # ============================================================
-#  Step 9: Install NixOS
+#  Step 10: Install NixOS
 # ============================================================
 info "Installing NixOS (this will take a while)..."
-nixos-install --flake "${INSTALL_DIR}/etc/nixos#${FLAKE_HOST}" --no-root-passwd
+nixos-install --flake "${INSTALL_DIR}/etc/nixos#${HOSTNAME}" --no-root-passwd
 
 # ============================================================
-#  Step 10: Set user password
+#  Step 11: Set user password
 # ============================================================
 echo ""
-info "Set password for user 'raymond':"
-nixos-enter --root "$INSTALL_DIR" -- passwd raymond
+info "Set password for user '${USERNAME}':"
+nixos-enter --root "$INSTALL_DIR" -- passwd "$USERNAME"
 
 # ============================================================
 #  Done!
 # ============================================================
 echo ""
 echo -e "${GREEN}${BOLD}╔══════════════════════════════════════╗${NC}"
-echo -e "${GREEN}${BOLD}║      Installation complete! 🐍       ║${NC}"
+echo -e "${GREEN}${BOLD}║      Installation complete!          ║${NC}"
 echo -e "${GREEN}${BOLD}╚══════════════════════════════════════╝${NC}"
 echo ""
-echo -e "  Disk:     ${BOLD}${DISK}${NC} (${DISK_MODEL})"
+echo -e "  User:     ${BOLD}${USERNAME}${NC}"
+echo -e "  Host:     ${BOLD}${HOSTNAME}${NC}"
+echo -e "  Timezone: ${BOLD}${TIMEZONE}${NC}"
+echo -e "  Disk:     ${BOLD}${DISK}${NC} (${DISK_MODEL} — ${DISK_SIZE})"
 echo -e "  CPU:      ${BOLD}${CPU_UCODE}${NC}"
 echo -e "  FS:       ${BOLD}btrfs${NC} with @, @home, @nix, @log, @snapshots"
 echo -e "  Boot:     ${BOLD}Limine${NC} (Catppuccin Mocha)"

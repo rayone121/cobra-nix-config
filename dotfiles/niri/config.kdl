@@ -59,7 +59,7 @@ window-rule {
 }
 
 // ---------- Startup ----------
-spawn-at-startup "swww-daemon"
+spawn-at-startup "awww-daemon"
 spawn-at-startup "waybar"
 spawn-at-startup "dunst"
 

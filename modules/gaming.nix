@@ -51,11 +51,11 @@
     heroic            # Epic / GOG / Amazon launcher
 
     # Wine
-    wineWowPackages.stable
+    wineWow64Packages.stable
     winetricks
 
     # Utilities
-    gameconqueror     # Cheat Engine equivalent
+    scanmem           # Memory scanner (gameconqueror removed from nixpkgs)
     vulkan-tools      # vulkaninfo, etc.
   ];
 

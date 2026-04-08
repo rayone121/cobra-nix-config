@@ -48,15 +48,17 @@
 
   programs.git = {
     enable = true;
-    userName = "INSTALLER_GIT_NAME";
-    userEmail = "INSTALLER_GIT_EMAIL";
+    settings.user = {
+      name = "INSTALLER_GIT_NAME";
+      email = "INSTALLER_GIT_EMAIL";
+    };
   };
 
   # ---------- Packages ----------
   home.packages = with pkgs; [
     # Wayland / Niri utilities
     libnotify
-    swww
+    awww
     wl-clipboard
     grim
     slurp

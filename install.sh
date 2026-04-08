@@ -71,12 +71,6 @@ echo ""
 command -v nix >/dev/null 2>&1 || err "Nix not found. Are you booted into the NixOS installer ISO?"
 command -v git >/dev/null 2>&1 || { info "Installing git..."; nix-env -iA nixos.git; }
 
-# Install fzf for interactive selection
-if ! command -v fzf >/dev/null 2>&1; then
-    info "Installing fzf for interactive menus..."
-    nix-env -iA nixos.fzf
-fi
-
 # ============================================================
 #  Step 2: Username
 # ============================================================
@@ -95,54 +89,86 @@ HOSTNAME="${HOSTNAME:-cobra}"
 [[ "$HOSTNAME" =~ ^[a-zA-Z0-9-]+$ ]] || err "Invalid hostname."
 
 # ============================================================
-#  Step 4: Timezone (fzf picker)
+#  Step 4: Timezone
 # ============================================================
 echo ""
 echo -e "  ${BOLD}2. Timezone${NC}"
 echo ""
+echo -e "  ${DIM}Common timezones:${NC}"
+echo ""
 
-# Build timezone list from /usr/share/zoneinfo
-if [[ -d /usr/share/zoneinfo ]]; then
-    TIMEZONE=$(find /usr/share/zoneinfo -type f ! -path '*/posix/*' ! -path '*/right/*' ! -name '*.tab' ! -name 'posixrules' ! -name 'localtime' \
-        | sed 's|/usr/share/zoneinfo/||' \
-        | sort \
-        | fzf --height=15 --reverse --prompt="  Timezone > " --header="  Type to search, Enter to select" --query="America/")
-elif [[ -d /etc/zoneinfo ]]; then
-    TIMEZONE=$(find /etc/zoneinfo -type f \
-        | sed 's|/etc/zoneinfo/||' \
-        | sort \
-        | fzf --height=15 --reverse --prompt="  Timezone > " --header="  Type to search, Enter to select" --query="America/")
+TIMEZONES=(
+    "America/New_York"    "America/Chicago"       "America/Denver"
+    "America/Los_Angeles" "America/Toronto"       "America/Vancouver"
+    "America/Sao_Paulo"   "America/Mexico_City"   "America/Argentina/Buenos_Aires"
+    "Europe/London"       "Europe/Paris"          "Europe/Berlin"
+    "Europe/Amsterdam"    "Europe/Rome"           "Europe/Madrid"
+    "Europe/Stockholm"    "Europe/Warsaw"         "Europe/Bucharest"
+    "Europe/Moscow"       "Europe/Istanbul"       "Europe/Helsinki"
+    "Europe/Athens"       "Europe/Zurich"         "Europe/Vienna"
+    "Asia/Tokyo"          "Asia/Shanghai"         "Asia/Kolkata"
+    "Asia/Singapore"      "Asia/Seoul"            "Asia/Dubai"
+    "Asia/Hong_Kong"      "Asia/Bangkok"          "Asia/Jakarta"
+    "Australia/Sydney"    "Australia/Melbourne"   "Australia/Perth"
+    "Pacific/Auckland"    "Pacific/Honolulu"
+    "Africa/Cairo"        "Africa/Johannesburg"   "Africa/Lagos"
+)
+
+# Display numbered list in columns
+IDX=1
+for tz in "${TIMEZONES[@]}"; do
+    printf "  ${DIM}%2d)${NC} %-35s" "$IDX" "$tz"
+    if (( IDX % 2 == 0 )); then echo ""; fi
+    ((IDX++))
+done
+echo ""
+echo ""
+echo -e "  ${DIM}Enter a number, or type a timezone manually (e.g. Europe/London)${NC}"
+read -rp "$(echo -e "  ${CYAN}Timezone ${DIM}[America/New_York]${NC}${CYAN}: ${NC}")" TZ_INPUT
+TZ_INPUT="${TZ_INPUT:-America/New_York}"
+
+# If numeric, look up from list
+if [[ "$TZ_INPUT" =~ ^[0-9]+$ ]] && (( TZ_INPUT >= 1 && TZ_INPUT <= ${#TIMEZONES[@]} )); then
+    TIMEZONE="${TIMEZONES[$((TZ_INPUT - 1))]}"
 else
-    # Fallback: common timezones
-    TIMEZONE=$(printf '%s\n' \
-        "America/New_York" "America/Chicago" "America/Denver" "America/Los_Angeles" \
-        "America/Toronto" "America/Vancouver" "America/Sao_Paulo" "America/Argentina/Buenos_Aires" \
-        "Europe/London" "Europe/Paris" "Europe/Berlin" "Europe/Amsterdam" "Europe/Rome" \
-        "Europe/Madrid" "Europe/Stockholm" "Europe/Warsaw" "Europe/Bucharest" "Europe/Moscow" \
-        "Europe/Istanbul" "Europe/Helsinki" "Europe/Athens" "Europe/Zurich" "Europe/Vienna" \
-        "Asia/Tokyo" "Asia/Shanghai" "Asia/Kolkata" "Asia/Singapore" "Asia/Seoul" \
-        "Asia/Dubai" "Asia/Hong_Kong" "Asia/Bangkok" "Asia/Jakarta" \
-        "Australia/Sydney" "Australia/Melbourne" "Australia/Perth" \
-        "Pacific/Auckland" "Pacific/Honolulu" \
-        "Africa/Cairo" "Africa/Johannesburg" "Africa/Lagos" \
-        | fzf --height=15 --reverse --prompt="  Timezone > " --header="  Type to search, Enter to select" --query="America/")
+    TIMEZONE="$TZ_INPUT"
 fi
 
-[[ -n "$TIMEZONE" ]] || err "No timezone selected."
+# Validate
+if [[ -d /usr/share/zoneinfo ]] && [[ ! -f "/usr/share/zoneinfo/${TIMEZONE}" ]]; then
+    warn "Timezone '${TIMEZONE}' not found in zoneinfo."
+    read -rp "$(echo -e "  ${CYAN}Continue anyway? [y/N]: ${NC}")" TZ_CONFIRM
+    [[ "$TZ_CONFIRM" =~ ^[yY]$ ]] || err "Aborted."
+fi
 
 # ============================================================
-#  Step 5: Disk selection (fzf picker)
+#  Step 5: Disk selection
 # ============================================================
 echo ""
 echo -e "  ${BOLD}3. Disk Selection${NC}"
 echo ""
 
-DISK_LINE=$(lsblk -d -n -o NAME,SIZE,MODEL,TRAN \
-    | grep -v "loop\|sr\|ram\|zram" \
-    | fzf --height=10 --reverse --prompt="  Disk > " --header="  NAME    SIZE  MODEL                TRAN")
+# Build disk list
+mapfile -t DISK_LINES < <(lsblk -d -n -o NAME,SIZE,MODEL,TRAN | grep -v "loop\|sr\|ram\|zram")
 
-[[ -n "$DISK_LINE" ]] || err "No disk selected."
-DISK_NAME=$(echo "$DISK_LINE" | awk '{print $1}')
+if [[ ${#DISK_LINES[@]} -eq 0 ]]; then
+    err "No disks found."
+fi
+
+echo -e "  ${DIM}  #  NAME        SIZE   MODEL                     TRAN${NC}"
+for i in "${!DISK_LINES[@]}"; do
+    printf "  ${DIM}%2d)${NC} %s\n" "$((i + 1))" "${DISK_LINES[$i]}"
+done
+echo ""
+
+read -rp "$(echo -e "  ${CYAN}Select disk [1]: ${NC}")" DISK_CHOICE
+DISK_CHOICE="${DISK_CHOICE:-1}"
+
+if ! [[ "$DISK_CHOICE" =~ ^[0-9]+$ ]] || (( DISK_CHOICE < 1 || DISK_CHOICE > ${#DISK_LINES[@]} )); then
+    err "Invalid selection."
+fi
+
+DISK_NAME=$(echo "${DISK_LINES[$((DISK_CHOICE - 1))]}" | awk '{print $1}')
 DISK="/dev/${DISK_NAME}"
 
 [[ -b "$DISK" ]] || err "Disk $DISK does not exist."

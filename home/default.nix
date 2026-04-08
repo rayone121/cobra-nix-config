@@ -77,6 +77,9 @@
     # File manager
     nautilus
 
+    # Browser
+    firefox
+
     # Theming
     matugen
 

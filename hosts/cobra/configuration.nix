@@ -105,6 +105,14 @@
     fileSystems = [ "/" ];
   };
 
+  # ---------- Zram Swap ----------
+  zramSwap = {
+    enable = true;
+    algorithm = "zstd";
+    memoryPercent = 50;
+    priority = 100;
+  };
+
   # ---------- Security ----------
   security.polkit.enable = true;
   security.rtkit.enable = true;

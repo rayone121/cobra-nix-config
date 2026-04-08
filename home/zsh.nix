@@ -17,9 +17,7 @@
     };
 
     shellAliases = {
-      ls = "lsd";
-      ll = "lsd -la";
-      lt = "lsd --tree";
+      # ls/ll/lt provided by programs.lsd.enableZshIntegration
       cat = "bat";
       cd = "z";
       ".." = "z ..";

@@ -3,6 +3,7 @@
 {
   imports = [
     ./hardware-configuration.nix
+    ../../modules/gaming.nix
   ];
 
   # ---------- Boot (Limine + Catppuccin Mocha) ----------

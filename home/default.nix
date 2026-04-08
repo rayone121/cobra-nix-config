@@ -69,6 +69,9 @@
     # App launcher (Spotlight-like)
     fuzzel
 
+    # Bar
+    waybar
+
     # Notifications
     dunst
 

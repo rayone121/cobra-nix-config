@@ -82,6 +82,15 @@
     extraPortals = [ pkgs.xdg-desktop-portal-gnome ];
   };
 
+  # ---------- SSH ----------
+  services.openssh = {
+    enable = true;
+    settings = {
+      PasswordAuthentication = true;
+      PermitRootLogin = "no";
+    };
+  };
+
   # ---------- Shell ----------
   programs.zsh.enable = true;
 

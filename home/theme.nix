@@ -4,6 +4,7 @@
   # ---------- GTK Theme (macOS-like) ----------
   gtk = {
     enable = true;
+    gtk4.theme = null;
     theme = {
       name = "WhiteSur-Dark";
       package = pkgs.whitesur-gtk-theme;

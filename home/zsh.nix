@@ -26,8 +26,8 @@
       update = "nix flake update --flake ~/.config/nixos";
     };
 
-    # Zinit setup — loaded via initExtra since there's no native HM module
-    initExtra = ''
+    # Zinit setup
+    initContent = ''
       # ---------- Zinit ----------
       ZINIT_HOME="''${XDG_DATA_HOME:-''${HOME}/.local/share}/zinit/zinit.git"
       if [ ! -d "$ZINIT_HOME" ]; then

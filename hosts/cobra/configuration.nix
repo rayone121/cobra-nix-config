@@ -61,7 +61,7 @@
     enable = true;
     settings = {
       default_session = {
-        command = "${pkgs.greetd.tuigreet}/bin/tuigreet --time --cmd niri-session";
+        command = "${pkgs.tuigreet}/bin/tuigreet --time --cmd niri-session";
         user = "greeter";
       };
     };
@@ -124,7 +124,7 @@
     inter
     noto-fonts
     noto-fonts-cjk-sans
-    noto-fonts-emoji
+    noto-fonts-color-emoji
   ];
 
   system.stateVersion = "24.11";

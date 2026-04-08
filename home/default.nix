@@ -48,9 +48,8 @@
 
   programs.git = {
     enable = true;
-    # TODO: set your name/email
-    # userName = "INSTALLER_DISPLAYNAME";
-    # userEmail = "you@example.com";
+    userName = "INSTALLER_GIT_NAME";
+    userEmail = "INSTALLER_GIT_EMAIL";
   };
 
   # ---------- Packages ----------

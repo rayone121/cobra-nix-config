@@ -81,7 +81,16 @@ read -rp "$(echo -e "  ${CYAN}Username: ${NC}")" USERNAME
 [[ "$USERNAME" =~ ^[a-z_][a-z0-9_-]*$ ]] || err "Invalid username. Use lowercase letters, numbers, hyphens, underscores."
 
 # ============================================================
-#  Step 3: Hostname
+#  Step 3: Git identity
+# ============================================================
+echo ""
+read -rp "$(echo -e "  ${CYAN}Git name ${DIM}[${USERNAME}]${NC}${CYAN}: ${NC}")" GIT_NAME
+GIT_NAME="${GIT_NAME:-${USERNAME}}"
+read -rp "$(echo -e "  ${CYAN}Git email: ${NC}")" GIT_EMAIL
+[[ -n "$GIT_EMAIL" ]] || err "Git email cannot be empty."
+
+# ============================================================
+#  Step 4: Hostname
 # ============================================================
 echo ""
 read -rp "$(echo -e "  ${CYAN}Hostname ${DIM}[cobra]${NC}${CYAN}: ${NC}")" HOSTNAME
@@ -250,6 +259,8 @@ find "$CONFIG_DIR" -name '*.nix' -exec sed -i "s/INSTALLER_USERNAME/${USERNAME}/
 find "$CONFIG_DIR" -name '*.nix' -exec sed -i "s/INSTALLER_DISPLAYNAME/${USERNAME_CAP}/g" {} +
 find "$CONFIG_DIR" -name '*.nix' -exec sed -i "s/INSTALLER_HOSTNAME/${HOSTNAME}/g" {} +
 find "$CONFIG_DIR" -name '*.nix' -exec sed -i "s|INSTALLER_TIMEZONE|${TIMEZONE}|g" {} +
+find "$CONFIG_DIR" -name '*.nix' -exec sed -i "s/INSTALLER_GIT_NAME/${GIT_NAME}/g" {} +
+find "$CONFIG_DIR" -name '*.nix' -exec sed -i "s/INSTALLER_GIT_EMAIL/${GIT_EMAIL}/g" {} +
 
 ok "Config patched"
 
@@ -292,7 +303,7 @@ cp -r "$CONFIG_DIR"/. "${USER_CONFIG_DIR}/"
 # Initialize git so flake can find files
 git -C "${USER_CONFIG_DIR}" init -q
 git -C "${USER_CONFIG_DIR}" add -A
-git -C "${USER_CONFIG_DIR}" commit -q -m "Initial config"
+git -C "${USER_CONFIG_DIR}" -c user.name="${GIT_NAME}" -c user.email="${GIT_EMAIL}" commit -q -m "Initial config"
 
 # Set ownership (will be applied after install via nixos-enter)
 ok "Config installed to ~/.config/nixos"

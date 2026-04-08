@@ -27,6 +27,7 @@
           ./hosts/cobra/configuration.nix
           home-manager.nixosModules.home-manager
           {
+            nixpkgs.config.allowUnfree = true;
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
             home-manager.users.INSTALLER_USERNAME = import ./home/default.nix;

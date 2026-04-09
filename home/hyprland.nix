@@ -1,13 +1,12 @@
 { config, pkgs, lib, ... }:
 
-let
-  hyprscrolling = pkgs.hyprlandPlugins.hyprscrolling;
-in
 {
   xdg.configFile."hypr/hyprland.conf".source = ../dotfiles/hyprland/hyprland.conf;
 
-  # Write plugin load file that hyprland.conf sources
-  xdg.configFile."hypr/plugins.conf".text = ''
-    plugin = ${hyprscrolling}/lib/libhyprscrolling.so
-  '';
+  # hyprscrolling plugin is at 0.53.0 but Hyprland is 0.54.3 — ABI mismatch.
+  # All official hyprland-plugins are stuck at 0.53.0 in nixpkgs.
+  # Uncomment when nixpkgs updates the plugin:
+  # xdg.configFile."hypr/plugins.conf".text = ''
+  #   plugin = ${pkgs.hyprlandPlugins.hyprscrolling}/lib/libhyprscrolling.so
+  # '';
 }

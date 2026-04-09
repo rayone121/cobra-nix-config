@@ -30,19 +30,33 @@
     shell = pkgs.zsh;
   };
 
-  # ---------- KDE Plasma 6 (minimal) ----------
-  services.desktopManager.plasma6.enable = true;
-  services.displayManager.sddm = {
+  # ---------- Niri (Wayland compositor) ----------
+  programs.niri.enable = true;
+
+  # ---------- Greetd (auto-login after LUKS) ----------
+  services.greetd = {
     enable = true;
-    wayland.enable = true;
+    settings = {
+      default_session = {
+        command = "${pkgs.niri}/bin/niri-session";
+        user = userConfig.username;
+      };
+    };
   };
 
-  environment.plasma6.excludePackages = with pkgs.kdePackages; [
-    konsole
-    elisa
-    kwrited
-    oxygen
-  ];
+  # Suppress greetd errors on tty
+  systemd.services.greetd.serviceConfig = {
+    Type = "idle";
+    StandardInput = "tty";
+    StandardOutput = "tty";
+    StandardError = "journal";
+    TTYReset = true;
+    TTYVHangup = true;
+    TTYVTDisallocate = true;
+  };
+
+  # ---------- Swaylock PAM ----------
+  security.pam.services.swaylock = {};
 
   # ---------- Audio (PipeWire) ----------
   services.pipewire = {
@@ -84,6 +98,12 @@
     mpv
     gh
   ];
+
+  # ---------- XDG Portal (for niri/wayland) ----------
+  xdg.portal = {
+    enable = true;
+    extraPortals = [ pkgs.xdg-desktop-portal-gnome ];
+  };
 
   # ---------- Bluetooth ----------
   hardware.bluetooth = {

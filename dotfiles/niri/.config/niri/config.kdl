@@ -182,5 +182,5 @@ binds {
     Mod+Shift+Slash { show-hotkey-overlay; }
 
     // --- Lock ---
-    Mod+Escape { spawn "swaylock" "-f"; }
+    Mod+Escape { spawn "cobra-power-menu"; }
 }

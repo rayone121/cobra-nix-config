@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# Power menu via fuzzel
+choice=$(printf "Lock\nSuspend\nReboot\nShutdown\nLogout" | fuzzel --dmenu --prompt "Power > " --width 20 --lines 5)
+
+case "$choice" in
+    Lock)     swaylock -f ;;
+    Suspend)  swaylock -f && systemctl suspend ;;
+    Reboot)   systemctl reboot ;;
+    Shutdown) systemctl poweroff ;;
+    Logout)   niri msg action quit --skip-confirmation ;;
+esac

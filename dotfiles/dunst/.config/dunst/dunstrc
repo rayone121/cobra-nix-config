@@ -1,0 +1,31 @@
+[global]
+width = 350
+height = 150
+offset = 10x10
+origin = top-right
+transparency = 10
+frame_color = "#fbb829"
+frame_width = 2
+corner_radius = 8
+font = JetBrainsMono Nerd Font 11
+padding = 12
+horizontal_padding = 12
+separator_color = frame
+icon_position = left
+max_icon_size = 48
+
+[urgency_low]
+background = "#1c1b19"
+foreground = "#baa67f"
+timeout = 5
+
+[urgency_normal]
+background = "#1c1b19"
+foreground = "#fce8c3"
+timeout = 10
+
+[urgency_critical]
+background = "#1c1b19"
+foreground = "#ef2f27"
+frame_color = "#ef2f27"
+timeout = 0

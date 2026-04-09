@@ -1,0 +1,55 @@
+{
+  "layer": "top",
+  "position": "top",
+  "height": 26,
+  "spacing": 0,
+  "modules-left": ["niri/workspaces"],
+  "modules-center": ["clock"],
+  "modules-right": ["bluetooth", "network", "pulseaudio", "cpu", "battery", "tray"],
+  "niri/workspaces": {
+    "format": "{index}",
+    "on-click": "activate"
+  },
+  "clock": {
+    "format": "{:%a %d %b  %H:%M}",
+    "tooltip-format": "<tt>{calendar}</tt>"
+  },
+  "bluetooth": {
+    "format": " {status}",
+    "format-connected": " {device_alias}",
+    "format-disabled": "",
+    "on-click": "kitty -e bluetuith",
+    "tooltip-format": "{controller_alias}\t{controller_address}"
+  },
+  "network": {
+    "format-wifi": "  {essid}",
+    "format-ethernet": "  {ifname}",
+    "format-disconnected": "  Disconnected",
+    "on-click": "kitty -e nmtui",
+    "tooltip-format": "{ipaddr}/{cidr}"
+  },
+  "pulseaudio": {
+    "format": "{icon} {volume}%",
+    "format-muted": " muted",
+    "format-icons": {
+      "default": ["", "", ""]
+    },
+    "on-click": "kitty -e pulsemixer"
+  },
+  "cpu": {
+    "format": " {usage}%",
+    "interval": 5
+  },
+  "battery": {
+    "format": "{icon} {capacity}%",
+    "format-charging": " {capacity}%",
+    "format-icons": ["", "", "", "", ""],
+    "states": {
+      "warning": 30,
+      "critical": 15
+    }
+  },
+  "tray": {
+    "spacing": 8
+  }
+}

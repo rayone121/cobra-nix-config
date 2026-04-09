@@ -105,6 +105,10 @@
     priority = 100;
   };
 
+  # ---------- Firmware ----------
+  hardware.enableAllFirmware = true;
+  services.fwupd.enable = true;
+
   # ---------- Security ----------
   security.polkit.enable = true;
   security.rtkit.enable = true;

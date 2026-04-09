@@ -3,7 +3,7 @@
 set -euo pipefail
 source "$(dirname "$0")/lib.sh"
 
-USERNAME=$(nix eval --raw -f "$REPO_DIR/config.nix" username)
+USERNAME=$($NIX eval --raw -f "$REPO_DIR/config.nix" username)
 
 info "Set password for '${USERNAME}':"
 nixos-enter --root /mnt -- passwd "$USERNAME"

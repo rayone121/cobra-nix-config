@@ -12,5 +12,6 @@ err()   { echo -e "${RED}[!]${NC} $1"; exit 1; }
 warn()  { echo -e "${RED}[!]${NC} $1"; }
 
 REPO_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+NIX="nix --extra-experimental-features nix-command"
 
 [[ $EUID -eq 0 ]] || err "Run as root: sudo bash $0"

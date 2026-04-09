@@ -3,10 +3,10 @@
 set -euo pipefail
 source "$(dirname "$0")/lib.sh"
 
-HOSTNAME=$(nix eval --raw -f "$REPO_DIR/config.nix" hostname)
-USERNAME=$(nix eval --raw -f "$REPO_DIR/config.nix" username)
-GIT_NAME=$(nix eval --raw -f "$REPO_DIR/config.nix" gitName)
-GIT_EMAIL=$(nix eval --raw -f "$REPO_DIR/config.nix" gitEmail)
+HOSTNAME=$($NIX eval --raw -f "$REPO_DIR/config.nix" hostname)
+USERNAME=$($NIX eval --raw -f "$REPO_DIR/config.nix" username)
+GIT_NAME=$($NIX eval --raw -f "$REPO_DIR/config.nix" gitName)
+GIT_EMAIL=$($NIX eval --raw -f "$REPO_DIR/config.nix" gitEmail)
 
 USER_CONFIG="/mnt/home/${USERNAME}/.config/nixos"
 

@@ -78,6 +78,7 @@
       "kwin"."Toggle Window Floating" = "Meta+Shift+Space";
       "org.kde.krunner.desktop"."_launch" = "Meta+Space";
       "org.kde.spectacle.desktop"."RectangularRegionScreenShot" = "Print";
+      "kitty.desktop"."_launch" = "Meta+Return";
     };
 
     # ---------- Karousel tiling ----------

@@ -1,6 +1,6 @@
-// Matugen colors (overrides focus-ring/border when generated)
-// include is silently ignored if file doesn't exist
-include "./colors.kdl"
+// Matugen colors (run `wall <image>` to generate)
+// Uncomment after first matugen run:
+// include "./colors.kdl"
 
 // ============================================
 // Niri compositor configuration

@@ -13,4 +13,17 @@ IMAGE="$(realpath "$1")"
 
 echo "Generating colors from: $IMAGE"
 matugen image "$IMAGE" -m dark
+
+# Enable color includes now that files exist
+NIRI_CONF="$HOME/.config/niri/config.kdl"
+if grep -q '// include "./colors.kdl"' "$NIRI_CONF" 2>/dev/null; then
+    sed -i 's|// include "./colors.kdl"|include "./colors.kdl"|' "$NIRI_CONF"
+    niri msg action reload-config-file 2>/dev/null || true
+fi
+
+WAYBAR_CSS="$HOME/.config/waybar/style.css"
+if grep -q '/\* @import "colors.css"; \*/' "$WAYBAR_CSS" 2>/dev/null; then
+    sed -i 's|/\* @import "colors.css"; \*/|@import "colors.css";|' "$WAYBAR_CSS"
+fi
+
 echo "Done!"

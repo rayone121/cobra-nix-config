@@ -3,7 +3,6 @@ width = 350
 height = 100
 offset = 12x12
 origin = top-right
-transparency = 10
 frame_color = "#ffffff33"
 frame_width = 1
 corner_radius = 12

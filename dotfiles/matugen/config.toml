@@ -3,7 +3,7 @@ reload_apps = true
 set_wallpaper = true
 wallpaper_tool = "Swww"
 prefix = "@"
-awww_options = [
+swww_options = [
     "--transition-type", "center",
     "--transition-duration", "1",
 ]

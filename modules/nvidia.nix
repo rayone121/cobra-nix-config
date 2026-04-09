@@ -36,6 +36,7 @@
 
     # Cursor fix for NVIDIA on Wayland
     WLR_NO_HARDWARE_CURSORS = "1";
+    HYPRLAND_NO_HARDWARE_CURSORS = "1";
 
     # Electron / Chromium Wayland flags
     NIXOS_OZONE_WL = "1";

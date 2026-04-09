@@ -80,10 +80,8 @@
   };
 
   # ---------- XDG Portal ----------
-  xdg.portal = {
-    enable = true;
-    extraPortals = [ pkgs.xdg-desktop-portal-hyprland ];
-  };
+  xdg.portal.enable = true;
+  # hyprland portal auto-added by programs.hyprland.enable
 
   # ---------- SSH ----------
   services.openssh = {

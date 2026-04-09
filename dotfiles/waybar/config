@@ -1,5 +1,6 @@
 [
   {
+    "name": "top-bar",
     "layer": "top",
     "position": "top",
     "height": 32,
@@ -76,15 +77,16 @@
     }
   },
   {
+    "name": "bottom-dock",
     "layer": "top",
     "position": "bottom",
     "height": 52,
     "margin-bottom": 6,
     "margin-left": 200,
     "margin-right": 200,
-    "modules-center": ["wlr/taskbar"],
+    "modules-center": ["taskbar"],
 
-    "wlr/taskbar": {
+    "taskbar": {
       "format": "{icon}",
       "icon-size": 32,
       "icon-theme": "WhiteSur-dark",

@@ -57,7 +57,7 @@ cat << 'COBRA'
 COBRA
 echo -e "${NC}"
 echo -e "  ${BOLD}Cobra NixOS Installer${NC}"
-echo -e "  ${DIM}Niri + macOS style + Btrfs + Limine${NC}"
+echo -e "  ${DIM}Hyprland + macOS style + Btrfs + Limine${NC}"
 echo -e "  ${DIM}github.com/rayone121/cobra-nix-config${NC}"
 echo ""
 echo -e "  ${DIM}────────────────────────────────────${NC}"
@@ -371,7 +371,7 @@ echo -e "  Disk:      ${BOLD}${DISK}${NC} ${DIM}(${DISK_MODEL} — ${DISK_SIZE})
 echo -e "  CPU:       ${BOLD}${CPU_UCODE}${NC}"
 echo -e "  FS:        ${BOLD}btrfs${NC} ${DIM}(@, @home, @nix, @log, @snapshots)${NC}"
 echo -e "  Boot:      ${BOLD}Limine${NC} ${DIM}(Catppuccin Mocha)${NC}"
-echo -e "  Desktop:   ${BOLD}Niri${NC} ${DIM}(macOS-style)${NC}"
+echo -e "  Desktop:   ${BOLD}Hyprland${NC} ${DIM}(macOS-style)${NC}"
 echo -e "  Config:    ${BOLD}~/.config/nixos${NC}"
 echo ""
 echo -e "  ${DIM}────────────────────────────────────${NC}"

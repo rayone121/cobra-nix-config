@@ -1,12 +1,12 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, userConfig, ... }:
 
 {
   imports = [
     ./zsh.nix
   ];
 
-  home.username = "raymond";
-  home.homeDirectory = "/home/raymond";
+  home.username = userConfig.username;
+  home.homeDirectory = "/home/${userConfig.username}";
 
   # ---------- Kitty ----------
   programs.kitty = {
@@ -61,25 +61,20 @@
     enable = true;
     signing.format = null;
     settings.user = {
-      name = "HEAPTRASH";
-      email = "raymond.enescu@gmail.com";
+      name = userConfig.gitName;
+      email = userConfig.gitEmail;
     };
   };
 
   programs.firefox = {
     enable = true;
-    profiles.default = {
-      isDefault = true;
-    };
+    profiles.default.isDefault = true;
   };
 
   # ---------- Packages ----------
   home.packages = with pkgs; [
-    # AI / Dev
     claude-code
     opencode
-
-    # CLI
     ripgrep
     fd
     jq

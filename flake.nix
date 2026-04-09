@@ -17,10 +17,12 @@
     let
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
+      userConfig = import ./config.nix;
     in
     {
-      nixosConfigurations.cobra = nixpkgs.lib.nixosSystem {
+      nixosConfigurations.${userConfig.hostname} = nixpkgs.lib.nixosSystem {
         inherit system;
+        specialArgs = { inherit userConfig; };
         modules = [
           disko.nixosModules.disko
           ./hosts/cobra/disk.nix
@@ -30,16 +32,10 @@
             nixpkgs.config.allowUnfree = true;
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.raymond = import ./home/default.nix;
+            home-manager.extraSpecialArgs = { inherit userConfig; };
+            home-manager.users.${userConfig.username} = import ./home/default.nix;
           }
         ];
-      };
-
-      apps.${system}.install = let
-        installer = pkgs.writeShellScriptBin "cobra-install" (builtins.readFile ./install.sh);
-      in {
-        type = "app";
-        program = "${installer}/bin/cobra-install";
       };
     };
 }

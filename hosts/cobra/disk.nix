@@ -1,12 +1,11 @@
+{ userConfig, ... }:
+
 {
-  # Disko will partition, format, and mount everything declaratively.
-  # Change the device below to match your target disk.
-  # Run `lsblk` on the installer to find the right one.
   disko.devices = {
     disk = {
       main = {
         type = "disk";
-        device = "/dev/nvme0n1"; # <-- CHANGE THIS to your disk (e.g. /dev/sda)
+        device = userConfig.disk;
         content = {
           type = "gpt";
           partitions = {

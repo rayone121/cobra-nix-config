@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, userConfig, ... }:
 
 {
   imports = [
@@ -12,20 +12,20 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   # ---------- Networking ----------
-  networking.hostName = "cobra";
+  networking.hostName = userConfig.hostname;
   networking.networkmanager.enable = true;
 
   # ---------- Time / Locale ----------
-  time.timeZone = "Europe/Bucharest";
-  i18n.defaultLocale = "en_US.UTF-8";
+  time.timeZone = userConfig.timezone;
+  i18n.defaultLocale = userConfig.locale;
 
   # ---------- Nix ----------
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   # ---------- Users ----------
-  users.users.raymond = {
+  users.users.${userConfig.username} = {
     isNormalUser = true;
-    description = "Raymond";
+    description = userConfig.description;
     extraGroups = [ "wheel" "networkmanager" "video" "audio" "libvirtd" ];
     shell = pkgs.zsh;
   };
@@ -37,7 +37,6 @@
     wayland.enable = true;
   };
 
-  # Remove KDE bloat
   environment.plasma6.excludePackages = with pkgs.kdePackages; [
     konsole
     elisa

@@ -1,4 +1,4 @@
-{ config, pkgs, lib, ... }:
+{ config, pkgs, lib, userConfig, ... }:
 
 {
   programs.zsh = {
@@ -21,7 +21,7 @@
       cd = "z";
       ".." = "z ..";
       "..." = "z ../..";
-      rebuild = "sudo nixos-rebuild switch --flake ~/.config/nixos#cobra";
+      rebuild = "sudo nixos-rebuild switch --flake ~/.config/nixos#${userConfig.hostname}";
       update = "nix flake update --flake ~/.config/nixos";
       wifi = "nmtui";
       vol = "pulsemixer";
@@ -40,11 +40,9 @@
       zinit light zsh-users/zsh-completions
       zinit light Aloxaf/fzf-tab
 
-      # Keybindings
       bindkey '^p' history-search-backward
       bindkey '^n' history-search-forward
 
-      # Completion styling
       zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
       zstyle ':completion:*' list-colors "''${(s.:.)LS_COLORS}"
       zstyle ':completion:*' menu no

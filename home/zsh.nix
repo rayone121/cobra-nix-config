@@ -22,7 +22,7 @@
       cd = "z";
       ".." = "z ..";
       "..." = "z ../..";
-      rebuild = "sudo nixos-rebuild switch --flake ~/.config/nixos#INSTALLER_HOSTNAME";
+      rebuild = "sudo nixos-rebuild switch --flake ~/.config/nixos#cobra";
       update = "nix flake update --flake ~/.config/nixos";
       wifi = "nmtui";
       vol = "pulsemixer";

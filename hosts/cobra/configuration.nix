@@ -35,20 +35,20 @@
   boot.loader.efi.canTouchEfiVariables = true;
 
   # ---------- Networking ----------
-  networking.hostName = "INSTALLER_HOSTNAME";
+  networking.hostName = "cobra";
   networking.networkmanager.enable = true;
 
   # ---------- Time / Locale ----------
-  time.timeZone = "INSTALLER_TIMEZONE";
+  time.timeZone = "Europe/Bucharest";
   i18n.defaultLocale = "en_US.UTF-8";
 
   # ---------- Nix ----------
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   # ---------- Users ----------
-  users.users.INSTALLER_USERNAME = {
+  users.users.raymond = {
     isNormalUser = true;
-    description = "INSTALLER_DISPLAYNAME";
+    description = "Raymond";
     extraGroups = [ "wheel" "networkmanager" "video" "audio" ];
     shell = pkgs.zsh;
   };

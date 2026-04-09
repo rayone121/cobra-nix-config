@@ -8,8 +8,8 @@
     ./theme.nix
   ];
 
-  home.username = "INSTALLER_USERNAME";
-  home.homeDirectory = "/home/INSTALLER_USERNAME";
+  home.username = "raymond";
+  home.homeDirectory = "/home/raymond";
 
   # ---------- CLI Tools ----------
   programs.bat = {
@@ -50,8 +50,8 @@
     enable = true;
     signing.format = null;
     settings.user = {
-      name = "INSTALLER_GIT_NAME";
-      email = "INSTALLER_GIT_EMAIL";
+      name = "HEAPTRASH";
+      email = "raymond.enescu@gmail.com";
     };
   };
 

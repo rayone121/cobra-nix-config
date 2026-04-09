@@ -94,6 +94,7 @@
     htop
     killall
     brightnessctl
+    stow
     kitty
     mpv
     gh

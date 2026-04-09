@@ -41,5 +41,13 @@
           }
         ];
       };
+
+      # Run: nix --extra-experimental-features "nix-command flakes" run github:rayone121/cobra-nix-config#install
+      apps.${system}.install = let
+        installer = pkgs.writeShellScriptBin "cobra-install" (builtins.readFile ./install.sh);
+      in {
+        type = "app";
+        program = "${installer}/bin/cobra-install";
+      };
     };
 }

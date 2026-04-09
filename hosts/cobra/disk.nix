@@ -1,4 +1,7 @@
-{ userConfig, ... }:
+let
+  userConfig = import ../../config.nix;
+in
+{ ... }:
 
 {
   disko.devices = {

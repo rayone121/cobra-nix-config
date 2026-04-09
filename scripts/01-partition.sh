@@ -14,6 +14,6 @@ read -rp "$(echo -e "${RED}Type 'yes' to confirm: ${NC}")" CONFIRM
 [[ "$CONFIRM" == "yes" ]] || err "Aborted."
 
 $NIX --extra-experimental-features flakes \
-  run github:nix-community/disko -- --mode disko "$REPO_DIR/hosts/cobra/disk.nix"
+  run github:nix-community/disko/latest -- --mode destroy,format,mount "$REPO_DIR/hosts/cobra/disk.nix"
 
 ok "Disk partitioned and mounted at /mnt"

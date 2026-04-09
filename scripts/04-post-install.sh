@@ -11,8 +11,9 @@ nixos-enter --root /mnt -- passwd "$USERNAME"
 info "Fixing ownership..."
 nixos-enter --root /mnt -- chown -R "${USERNAME}:users" "/home/${USERNAME}"
 
+# /run/current-system/sw/bin is set up by nixos-install's activation
 info "Stowing dotfiles..."
 nixos-enter --root /mnt -- su "$USERNAME" -l -c \
-  "cd /home/${USERNAME}/.config/nixos && PATH=/run/current-system/sw/bin:\$PATH bash stow.sh"
+  "export PATH=/run/current-system/sw/bin:\$PATH && cd /home/${USERNAME}/.config/nixos && bash stow.sh"
 
 ok "Done! Run ${CYAN}reboot${NC} to start your new system."

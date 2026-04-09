@@ -2,10 +2,9 @@
 
 {
   imports = [
-    ./hardware-configuration.nix
     ../../modules/nvidia.nix
     ../../modules/gaming.nix
-  ];
+  ] ++ lib.optional (builtins.pathExists ./hardware-configuration.nix) ./hardware-configuration.nix;
 
   # ---------- Boot ----------
   boot.loader.systemd-boot.enable = true;

@@ -4,18 +4,30 @@
   programs.plasma = {
     enable = true;
 
-    # ---------- Single top panel (dwm-style) ----------
+    # ---------- dwm-style top panel ----------
     panels = [
       {
         location = "top";
-        height = 28;
+        height = 24;
         widgets = [
-          "org.kde.plasma.kickoff"
-          "org.kde.plasma.pager"
-          "org.kde.plasma.taskmanager"
+          {
+            name = "org.kde.plasma.pager";
+            config.General = {
+              displayedText = "Number";
+              showWindowIcons = "false";
+            };
+          }
+          "org.kde.plasma.panelspacer"
+          "org.kde.plasma.windowtitle"
           "org.kde.plasma.panelspacer"
           "org.kde.plasma.systemtray"
-          "org.kde.plasma.digitalclock"
+          {
+            name = "org.kde.plasma.digitalclock";
+            config.Appearance = {
+              showDate = "true";
+              use24hFormat = "2";
+            };
+          }
         ];
       }
     ];
@@ -31,10 +43,11 @@
 
     # ---------- Shortcuts ----------
     shortcuts = {
-      "kwin"."Window Close" = "Meta+Q";
+      "kwin"."Window Close" = "Meta+W";
       "kwin"."Window Fullscreen" = "Meta+F";
       "kwin"."Window Maximize" = "Meta+Shift+F";
-      "kwin"."Window Minimize" = "Meta+M";
+      "kwin"."Window Quick Tile Left" = "Meta+H";
+      "kwin"."Window Quick Tile Right" = "Meta+L";
       "kwin"."Switch to Desktop 1" = "Meta+1";
       "kwin"."Switch to Desktop 2" = "Meta+2";
       "kwin"."Switch to Desktop 3" = "Meta+3";
@@ -53,20 +66,23 @@
       "kwin"."Window to Desktop 7" = "Meta+Shift+7";
       "kwin"."Window to Desktop 8" = "Meta+Shift+8";
       "kwin"."Window to Desktop 9" = "Meta+Shift+9";
+      "kwin"."Switch to Next Desktop" = "Meta+Tab";
+      "kwin"."Switch to Previous Desktop" = "Meta+Shift+Tab";
+      "kwin"."Toggle Window Floating" = "Meta+Shift+Space";
       "org.kde.spectacle.desktop"."RectangularRegionScreenShot" = "Print";
     };
 
-    # ---------- Polonium + KWin config ----------
+    # ---------- Karousel tiling ----------
     configFile = {
-      "kwinrc"."Plugins".poloniumEnabled = true;
-      "kwinrc"."Script-polonium" = {
-        Borders = 1;
+      "kwinrc"."Plugins".karouselEnabled = true;
+      "kwinrc"."Script-karousel" = {
         GapSize = 8;
       };
     };
   };
 
   home.packages = with pkgs; [
-    polonium
+    kdePackages.karousel
+    kdePackages.plasma-browser-integration
   ];
 }

@@ -1,5 +1,6 @@
 // Matugen colors (overrides focus-ring/border when generated)
-include "colors.kdl"
+// include is silently ignored if file doesn't exist
+include "./colors.kdl"
 
 // ============================================
 // Niri compositor configuration
@@ -12,7 +13,8 @@ spawn-at-startup "swayidle" "-w" "timeout" "150" "cobra-launch-screensaver" "tim
 
 // ---------- Environment ----------
 environment {
-    DISPLAY ":0"
+    QT_QPA_PLATFORM "wayland;xcb"
+    NIXOS_OZONE_WL "1"
 }
 
 // ---------- Input ----------
@@ -36,7 +38,7 @@ input {
         accel-profile "flat"
     }
 
-    focus-follows-mouse max-scroll-amount="0%"
+    focus-follows-mouse
 }
 
 // ---------- Layout ----------
@@ -71,7 +73,7 @@ screenshot-path "~/Pictures/Screenshots/%Y-%m-%d_%H-%M-%S.png"
 
 // ---------- Window rules ----------
 window-rule {
-    geometry-corner-radius 8
+    geometry-corner-radius 8 8 8 8
     clip-to-geometry true
 }
 
@@ -103,7 +105,6 @@ binds {
     Mod+W { close-window; }
     Mod+F { maximize-column; }
     Mod+Shift+Space { toggle-window-floating; }
-    Mod+S { toggle-window-floating; }
 
     // --- Focus ---
     Mod+Left { focus-column-left; }

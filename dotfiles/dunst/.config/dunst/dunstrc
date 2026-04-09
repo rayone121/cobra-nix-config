@@ -3,7 +3,6 @@ width = 350
 height = 150
 offset = 10x10
 origin = top-right
-transparency = 10
 frame_color = "#fbb829"
 frame_width = 2
 corner_radius = 8

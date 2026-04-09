@@ -202,6 +202,24 @@ git -C "${USER_CONFIG_DIR}" -c user.name="HEAPTRASH" -c user.email="raymond.enes
 ok "Config installed"
 
 # ============================================================
+#  Stow dotfiles (manual symlinks — stow not on live ISO)
+# ============================================================
+info "Linking dotfiles..."
+DOTFILES_DIR="${USER_CONFIG_DIR}/dotfiles"
+HOME_DIR="${INSTALL_DIR}/home/raymond"
+mkdir -p "${HOME_DIR}/.config" "${HOME_DIR}/.local/bin"
+for pkg in hyprland waybar kitty dunst fuzzel matugen oh-my-posh; do
+    if [[ -d "${DOTFILES_DIR}/${pkg}/.config" ]]; then
+        cp -rs "${DOTFILES_DIR}/${pkg}/.config/"* "${HOME_DIR}/.config/"
+    fi
+done
+# Scripts
+if [[ -d "${DOTFILES_DIR}/scripts/.local/bin" ]]; then
+    cp -rs "${DOTFILES_DIR}/scripts/.local/bin/"* "${HOME_DIR}/.local/bin/"
+fi
+ok "Dotfiles linked"
+
+# ============================================================
 #  Install NixOS
 # ============================================================
 echo ""

@@ -98,6 +98,9 @@
     # Theming
     matugen
 
+    # Dotfiles
+    stow
+
     # Misc CLI
     ripgrep
     fd
@@ -107,12 +110,7 @@
     fastfetch
   ];
 
-  # ---------- Scripts ----------
-  home.file.".local/bin/wall" = {
-    source = ../dotfiles/scripts/wall;
-    executable = true;
-  };
-
+  # ~/.local/bin in PATH for stowed scripts
   home.sessionPath = [ "$HOME/.local/bin" ];
 
   home.stateVersion = "25.05";

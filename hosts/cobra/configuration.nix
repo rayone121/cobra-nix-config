@@ -43,7 +43,11 @@
   i18n.defaultLocale = "en_US.UTF-8";
 
   # ---------- Nix ----------
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
+  nix.settings = {
+    experimental-features = [ "nix-command" "flakes" ];
+    substituters = [ "https://niri.cachix.org" ];
+    trusted-public-keys = [ "niri.cachix.org-1:Wv0OmO7PsuocRKzfDoJ3mulSl7Z6oezYhGhR+3W2964=" ];
+  };
 
   # ---------- Users ----------
   users.users.raymond = {
@@ -79,7 +83,9 @@
   # ---------- XDG Portal ----------
   xdg.portal = {
     enable = true;
-    extraPortals = [ pkgs.xdg-desktop-portal-gnome ];
+    xdgOpenUsePortal = true;
+    config.common.default = "*";
+    extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
   };
 
   # ---------- SSH ----------

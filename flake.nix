@@ -12,7 +12,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     niri = {
-      url = "git+https://codeberg.org/BANanaD3V/niri-nix";
+      url = "github:sodiboo/niri-flake";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -27,7 +27,6 @@
         inherit system;
         modules = [
           disko.nixosModules.disko
-          niri.nixosModules.default
           ./hosts/cobra/disk.nix
           ./hosts/cobra/configuration.nix
           home-manager.nixosModules.home-manager
@@ -35,12 +34,10 @@
             nixpkgs.config.allowUnfree = true;
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.raymond = {
-              imports = [
-                niri.homeModules.default
-                ./home/default.nix
-              ];
-            };
+            home-manager.users.raymond = import ./home/default.nix;
+            home-manager.sharedModules = [
+              niri.homeModules.niri
+            ];
           }
         ];
       };

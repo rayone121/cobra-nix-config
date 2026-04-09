@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+# Launch screensaver in kitty on all monitors
+
+pgrep -f cobra.screensaver && exit 0
+
+kitty --class=cobra.screensaver \
+  --override font_size=14 \
+  --override window_padding_width=0 \
+  --override background_opacity=1 \
+  --override background=#1c1b19 \
+  -e cobra-screensaver

@@ -8,7 +8,7 @@ include "colors.kdl"
 // ---------- Spawn at startup ----------
 spawn-at-startup "waybar"
 spawn-at-startup "dunst"
-spawn-at-startup "swayidle" "-w" "timeout" "300" "swaylock -f" "timeout" "600" "niri msg action power-off-monitors" "resume" "niri msg action power-on-monitors" "before-sleep" "swaylock -f"
+spawn-at-startup "swayidle" "-w" "timeout" "150" "cobra-launch-screensaver" "timeout" "151" "swaylock -f" "timeout" "330" "niri msg action power-off-monitors" "resume" "niri msg action power-on-monitors" "before-sleep" "swaylock -f"
 
 // ---------- Environment ----------
 environment {
@@ -73,6 +73,11 @@ screenshot-path "~/Pictures/Screenshots/%Y-%m-%d_%H-%M-%S.png"
 window-rule {
     geometry-corner-radius 8
     clip-to-geometry true
+}
+
+window-rule {
+    match app-id="cobra.screensaver"
+    open-fullscreen true
 }
 
 // ---------- Animations ----------

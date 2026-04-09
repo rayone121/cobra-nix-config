@@ -55,26 +55,38 @@
     enable = true;
     enableZshIntegration = true;
     settings = {
+      "$schema" = "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json";
       version = 2;
-      final_space = true;
       blocks = [
         {
           type = "prompt";
           alignment = "left";
-          newline = true;
           segments = [
+            {
+              type = "text";
+              style = "plain";
+              foreground = "#ffffff";
+              template = "<#C591E8>❯</><#69FF94>❯</> ";
+            }
             {
               type = "path";
               style = "plain";
-              foreground = "#61AFEF";
-              template = "{{ .Path }}";
-              properties.style = "full";
+              foreground = "#56B6C2";
+              template = "{{ .Path }} ";
+              properties.style = "folder";
             }
             {
               type = "git";
               style = "plain";
-              foreground = "#98C379";
-              template = " {{ .HEAD }}{{ if .Staging.Changed }} +{{ .Staging.String }}{{ end }}{{ if .Working.Changed }} ~{{ .Working.String }}{{ end }}";
+              foreground = "#D0666F";
+              template = "<#5FAAE8>git:(</> {{ .HEAD }}<#5FAAE8>)</>";
+              properties.branch_icon = "";
+            }
+            {
+              type = "status";
+              style = "plain";
+              foreground = "#DCB977";
+              template = " 😞 ";
             }
           ];
         }
@@ -86,8 +98,8 @@
             {
               type = "text";
               style = "plain";
-              foreground = "#C678DD";
-              template = ">";
+              foreground = "#ffffff";
+              template = "❯ ";
             }
           ];
         }

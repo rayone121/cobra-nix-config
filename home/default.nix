@@ -118,6 +118,7 @@
     libnotify
     stow
     waybar
+    terminaltexteffects
   ];
 
   home.sessionPath = [ "$HOME/.local/bin" ];

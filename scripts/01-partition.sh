@@ -13,6 +13,8 @@ warn "This will ERASE ALL DATA on ${DISK}"
 read -rp "$(echo -e "${RED}Type 'yes' to confirm: ${NC}")" CONFIRM
 [[ "$CONFIRM" == "yes" ]] || err "Aborted."
 
+info "You will be prompted to set a LUKS disk encryption passphrase."
+
 $NIX --extra-experimental-features flakes \
   run github:nix-community/disko/latest -- --mode destroy,format,mount "$REPO_DIR/hosts/cobra/disk.nix"
 

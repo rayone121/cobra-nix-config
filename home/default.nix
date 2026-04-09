@@ -3,6 +3,7 @@
 {
   imports = [
     ./zsh.nix
+    ./plasma.nix
   ];
 
   home.username = userConfig.username;

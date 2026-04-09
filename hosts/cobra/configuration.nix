@@ -25,7 +25,7 @@
   users.users.${userConfig.username} = {
     isNormalUser = true;
     description = userConfig.description;
-    extraGroups = [ "wheel" "networkmanager" "video" "audio" "libvirtd" ];
+    extraGroups = [ "wheel" "networkmanager" "video" "audio" "libvirtd" "docker" ];
     shell = pkgs.zsh;
   };
 
@@ -54,6 +54,7 @@
 
   # ---------- Virtualisation ----------
   virtualisation.libvirtd.enable = true;
+  virtualisation.docker.enable = true;
   programs.virt-manager.enable = true;
 
   # ---------- SSH ----------

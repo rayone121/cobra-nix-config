@@ -66,6 +66,30 @@
     };
   };
 
+  # ---------- Tmux ----------
+  programs.tmux = {
+    enable = true;
+    baseIndex = 1;
+    clock24 = true;
+    escapeTime = 0;
+    terminal = "tmux-256color";
+    mouse = true;
+    keyMode = "vi";
+    customPaneNavigationAndResize = true;
+    disableConfirmationPrompt = true;
+    extraConfig = ''
+      set -g renumber-windows on
+      set -g set-titles on
+      set -g status-position top
+      set -g status-style "bg=default,fg=white"
+      set -g status-left "#[bold] #S "
+      set -g status-right " %H:%M "
+      bind | split-window -h -c "#{pane_current_path}"
+      bind - split-window -v -c "#{pane_current_path}"
+      bind c new-window -c "#{pane_current_path}"
+    '';
+  };
+
   programs.firefox = {
     enable = true;
     profiles.default.isDefault = true;
@@ -75,6 +99,7 @@
   home.packages = with pkgs; [
     claude-code
     opencode
+    zed-editor
     ripgrep
     fd
     jq

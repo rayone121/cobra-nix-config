@@ -196,6 +196,7 @@ cp -r "$CONFIG_DIR"/. "${USER_CONFIG_DIR}/"
 
 git -C "${USER_CONFIG_DIR}" init -q
 git -C "${USER_CONFIG_DIR}" add -A
+git -C "${USER_CONFIG_DIR}" add -f hosts/cobra/hardware-configuration.nix
 git -C "${USER_CONFIG_DIR}" -c user.name="HEAPTRASH" -c user.email="raymond.enescu@gmail.com" commit -q -m "Initial config"
 
 ok "Config installed"

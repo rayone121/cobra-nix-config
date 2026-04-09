@@ -53,15 +53,18 @@
     shell = pkgs.zsh;
   };
 
-  # ---------- Niri ----------
-  programs.niri.enable = true;
+  # ---------- Hyprland ----------
+  programs.hyprland = {
+    enable = true;
+    xwayland.enable = true;
+  };
 
   # ---------- Display / Login ----------
   services.greetd = {
     enable = true;
     settings = {
       default_session = {
-        command = "${pkgs.tuigreet}/bin/tuigreet --time --cmd niri-session";
+        command = "${pkgs.tuigreet}/bin/tuigreet --time --cmd Hyprland";
         user = "greeter";
       };
     };
@@ -79,7 +82,7 @@
   # ---------- XDG Portal ----------
   xdg.portal = {
     enable = true;
-    extraPortals = [ pkgs.xdg-desktop-portal-gnome ];
+    extraPortals = [ pkgs.xdg-desktop-portal-hyprland ];
   };
 
   # ---------- SSH ----------

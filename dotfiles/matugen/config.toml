@@ -33,7 +33,7 @@ post_hook = "dunstctl reload"
 input_path = "~/.config/matugen/templates/fuzzel-colors.ini"
 output_path = "~/.config/fuzzel/colors.ini"
 
-[templates.niri-colors]
-input_path = "~/.config/matugen/templates/niri-colors.kdl"
-output_path = "~/.config/niri/colors.kdl"
-post_hook = "niri msg action load-config-file"
+[templates.hyprland-colors]
+input_path = "~/.config/matugen/templates/hyprland-colors.conf"
+output_path = "~/.config/hypr/colors.conf"
+post_hook = "hyprctl reload"

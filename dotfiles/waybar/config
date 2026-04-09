@@ -6,7 +6,7 @@
     "margin-top": 4,
     "margin-left": 8,
     "margin-right": 8,
-    "modules-left": ["custom/apple", "niri/workspaces"],
+    "modules-left": ["custom/apple", "hyprland/workspaces"],
     "modules-center": ["clock"],
     "modules-right": ["bluetooth", "pulseaudio", "network", "battery", "tray"],
 
@@ -15,12 +15,14 @@
       "tooltip": false
     },
 
-    "niri/workspaces": {
+    "hyprland/workspaces": {
       "format": "{icon}",
       "format-icons": {
         "active": "",
         "default": ""
-      }
+      },
+      "on-scroll-up": "hyprctl dispatch workspace e+1",
+      "on-scroll-down": "hyprctl dispatch workspace e-1"
     },
 
     "clock": {

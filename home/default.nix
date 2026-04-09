@@ -3,7 +3,7 @@
 {
   imports = [
     ./zsh.nix
-    ./niri.nix
+    ./hyprland.nix
     ./waybar.nix
     ./theme.nix
   ];

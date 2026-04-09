@@ -29,7 +29,7 @@
     };
 
     initContent = ''
-      # ---------- Zinit ----------
+      # Zinit
       ZINIT_HOME="''${XDG_DATA_HOME:-''${HOME}/.local/share}/zinit/zinit.git"
       if [ ! -d "$ZINIT_HOME" ]; then
         mkdir -p "$(dirname $ZINIT_HOME)"
@@ -37,17 +37,14 @@
       fi
       source "''${ZINIT_HOME}/zinit.zsh"
 
-      # Zinit plugins
       zinit light zsh-users/zsh-completions
       zinit light Aloxaf/fzf-tab
 
-      # ---------- Keybindings ----------
+      # Keybindings
       bindkey '^p' history-search-backward
       bindkey '^n' history-search-forward
-      bindkey '^[[A' history-search-backward
-      bindkey '^[[B' history-search-forward
 
-      # ---------- Completion styling ----------
+      # Completion styling
       zstyle ':completion:*' matcher-list 'm:{a-z}={A-Za-z}'
       zstyle ':completion:*' list-colors "''${(s.:.)LS_COLORS}"
       zstyle ':completion:*' menu no
@@ -60,10 +57,8 @@
     enable = true;
     enableZshIntegration = true;
     settings = {
-      "$schema" = "https://raw.githubusercontent.com/JanDeDobbeleer/oh-my-posh/main/themes/schema.json";
       version = 2;
       final_space = true;
-      console_title_template = "{{ .Shell }} in {{ .Folder }}";
       blocks = [
         {
           type = "prompt";
@@ -75,21 +70,13 @@
               style = "plain";
               foreground = "#61AFEF";
               template = "{{ .Path }}";
-              properties = {
-                style = "full";
-              };
+              properties.style = "full";
             }
             {
               type = "git";
               style = "plain";
               foreground = "#98C379";
-              template = " {{ .HEAD }}{{ if .Staging.Changed }} \u2022{{ .Staging.String }}{{ end }}{{ if .Working.Changed }} \u00b1{{ .Working.String }}{{ end }}";
-            }
-            {
-              type = "nix-shell";
-              style = "plain";
-              foreground = "#7DCFFF";
-              template = " \u2744\ufe0f nix";
+              template = " {{ .HEAD }}{{ if .Staging.Changed }} +{{ .Staging.String }}{{ end }}{{ if .Working.Changed }} ~{{ .Working.String }}{{ end }}";
             }
           ];
         }
@@ -102,7 +89,7 @@
               type = "text";
               style = "plain";
               foreground = "#C678DD";
-              template = "\u276f";
+              template = ">";
             }
           ];
         }

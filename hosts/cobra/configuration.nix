@@ -7,31 +7,8 @@
     ../../modules/gaming.nix
   ];
 
-  # ---------- Boot (Limine + Catppuccin Mocha) ----------
-  boot.loader.limine = {
-    enable = true;
-    efiSupport = true;
-    maxGenerations = 10;
-    style = {
-      wallpapers = [ ./wallpaper.png ];
-      wallpaperStyle = "stretched";
-      backdrop = "1e1e2e";
-      interface = {
-        branding = "  cobra";
-        brandingColor = 4;
-        helpHidden = true;
-      };
-      graphicalTerminal = {
-        background = "cc1e1e2e";
-        foreground = "cdd6f4";
-        palette = "1e1e2e;f38ba8;a6e3a1;f9e2af;89b4fa;f5c2e7;94e2d5;cdd6f4";
-        brightForeground = "cdd6f4";
-        brightBackground = "585b70";
-        brightPalette = "585b70;f38ba8;a6e3a1;f9e2af;89b4fa;f5c2e7;94e2d5;cdd6f4";
-        margin = 6;
-      };
-    };
-  };
+  # ---------- Boot ----------
+  boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
   # ---------- Networking ----------
@@ -49,16 +26,24 @@
   users.users.raymond = {
     isNormalUser = true;
     description = "Raymond";
-    extraGroups = [ "wheel" "networkmanager" "video" "audio" ];
+    extraGroups = [ "wheel" "networkmanager" "video" "audio" "libvirtd" ];
     shell = pkgs.zsh;
   };
 
-  # ---------- KDE Plasma 6 ----------
+  # ---------- KDE Plasma 6 (minimal) ----------
   services.desktopManager.plasma6.enable = true;
   services.displayManager.sddm = {
     enable = true;
     wayland.enable = true;
   };
+
+  # Remove KDE bloat
+  environment.plasma6.excludePackages = with pkgs.kdePackages; [
+    konsole
+    elisa
+    kwrited
+    oxygen
+  ];
 
   # ---------- Audio (PipeWire) ----------
   services.pipewire = {
@@ -68,6 +53,10 @@
     alsa.enable = true;
     alsa.support32Bit = true;
   };
+
+  # ---------- Virtualisation ----------
+  virtualisation.libvirtd.enable = true;
+  programs.virt-manager.enable = true;
 
   # ---------- SSH ----------
   services.openssh = {
@@ -91,6 +80,9 @@
     htop
     killall
     brightnessctl
+    kitty
+    mpv
+    gh
   ];
 
   # ---------- Bluetooth ----------

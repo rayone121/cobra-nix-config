@@ -3,13 +3,12 @@
 {
   imports = [
     ./zsh.nix
-    ./plasma.nix
   ];
 
   home.username = "raymond";
   home.homeDirectory = "/home/raymond";
 
-  # ---------- Kitty Terminal ----------
+  # ---------- Kitty ----------
   programs.kitty = {
     enable = true;
     font = {
@@ -20,12 +19,6 @@
       background_opacity = "0.92";
       window_padding_width = 12;
       confirm_os_window_close = 0;
-      hide_window_decorations = "yes";
-      background = "#1e1e1e";
-      foreground = "#e0e0e0";
-      cursor = "#ffffff";
-      selection_background = "#3a3a3a";
-      selection_foreground = "#ffffff";
     };
   };
 
@@ -73,37 +66,30 @@
     };
   };
 
-  # ---------- Firefox ----------
   programs.firefox = {
     enable = true;
     profiles.default = {
       isDefault = true;
-      settings = {
-        "browser.toolbars.bookmarks.visibility" = "newtab";
-      };
     };
   };
 
   # ---------- Packages ----------
   home.packages = with pkgs; [
-    # Wayland utilities
-    libnotify
-    wl-clipboard
-    grim
-    slurp
-    pamixer
-    pulsemixer
+    # AI / Dev
+    claude-code
+    opencode
 
-    # TUI tools
-    bluetuith
-
-    # Misc CLI
+    # CLI
     ripgrep
     fd
     jq
     tree
     btop
     fastfetch
+    pamixer
+    pulsemixer
+    bluetuith
+    wl-clipboard
   ];
 
   home.stateVersion = "25.05";

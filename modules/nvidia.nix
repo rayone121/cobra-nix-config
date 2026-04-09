@@ -1,46 +1,36 @@
 { config, pkgs, lib, ... }:
 
 {
-  # ---------- NVIDIA Driver ----------
   services.xserver.videoDrivers = [ "nvidia" ];
 
   hardware.nvidia = {
-    # Open kernel modules — recommended by NVIDIA for Turing (RTX 2000/Quadro RTX) and newer.
-    # Same functionality as proprietary; the closed bits are in userspace/firmware.
     open = true;
-
-    # Use the stable driver branch
     package = config.boot.kernelPackages.nvidiaPackages.stable;
-
-    # Required for Wayland compositors (niri, Hyprland, sway)
     modesetting.enable = true;
-
-    # Power management — saves power when GPU is idle
     powerManagement.enable = true;
-
-    # nvidia-settings GUI
     nvidiaSettings = true;
   };
 
-  # ---------- OpenGL / Vulkan ----------
   hardware.graphics = {
     enable = true;
-    enable32Bit = true; # 32-bit support for Steam/Wine
+    enable32Bit = true;
   };
 
-  # ---------- Environment variables for Wayland + NVIDIA ----------
+  # CUDA
+  environment.systemPackages = with pkgs; [
+    cudaPackages.cuda_cudart
+    cudaPackages.cuda_nvcc
+  ];
+
   environment.sessionVariables = {
-    # Electron / Chromium Wayland flags
     NIXOS_OZONE_WL = "1";
   };
 
-  # ---------- Kernel params ----------
   boot.kernelParams = [
     "nvidia-drm.modeset=1"
-    "nvidia-drm.fbdev=1" # NVIDIA framebuffer for Wayland — driver 545+
+    "nvidia-drm.fbdev=1"
   ];
 
-  # Early KMS for NVIDIA
   boot.initrd.kernelModules = [
     "nvidia"
     "nvidia_modeset"

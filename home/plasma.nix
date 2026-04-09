@@ -8,13 +8,19 @@
     panels = [
       {
         location = "top";
-        height = 24;
+        height = 26;
         widgets = [
           {
-            name = "org.kde.plasma.pager";
+            name = "org.kde.plasma.kickoff";
+            config.General = {
+              icon = "nix-snowflake-white";
+              compactMode = "true";
+            };
+          }
+          {
+            name = "org.kde.plasma.kara";
             config.General = {
               displayedText = "Number";
-              showWindowIcons = "false";
             };
           }
           "org.kde.plasma.panelspacer"
@@ -28,6 +34,7 @@
               use24hFormat = "2";
             };
           }
+          "org.kde.plasma.panelcolorizer"
         ];
       }
     ];
@@ -69,6 +76,7 @@
       "kwin"."Switch to Next Desktop" = "Meta+Tab";
       "kwin"."Switch to Previous Desktop" = "Meta+Shift+Tab";
       "kwin"."Toggle Window Floating" = "Meta+Shift+Space";
+      "org.kde.krunner.desktop"."_launch" = "Meta+Space";
       "org.kde.spectacle.desktop"."RectangularRegionScreenShot" = "Print";
     };
 
@@ -83,6 +91,8 @@
 
   home.packages = with pkgs; [
     kdePackages.karousel
+    kara
+    plasma-panel-colorizer
     kdePackages.plasma-browser-integration
   ];
 }

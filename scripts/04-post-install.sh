@@ -12,19 +12,7 @@ info "Fixing ownership..."
 nixos-enter --root /mnt -- chown -R "${USERNAME}:users" "/home/${USERNAME}"
 
 info "Stowing dotfiles..."
-# Run stow directly from host — /mnt is still mounted
-DOTFILES="/mnt/home/${USERNAME}/.config/nixos/dotfiles"
-TARGET="/mnt/home/${USERNAME}"
-for pkg in niri waybar kitty dunst fuzzel swaylock matugen scripts cobra; do
-    if [[ -d "${DOTFILES}/${pkg}" ]]; then
-        # Manual symlink since stow might not be in PATH inside chroot
-        find "${DOTFILES}/${pkg}" -type f | while read -r src; do
-            rel="${src#${DOTFILES}/${pkg}/}"
-            dest="${TARGET}/${rel}"
-            mkdir -p "$(dirname "$dest")"
-            ln -sf "$src" "$dest"
-        done
-    fi
-done
+nixos-enter --root /mnt -- su "$USERNAME" -l -c \
+  "cd /home/${USERNAME}/.config/nixos && PATH=/run/current-system/sw/bin:\$PATH bash stow.sh"
 
 ok "Done! Run ${CYAN}reboot${NC} to start your new system."

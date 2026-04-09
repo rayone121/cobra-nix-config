@@ -11,13 +11,14 @@
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    niri = {
-      url = "github:sodiboo/niri-flake";
+    plasma-manager = {
+      url = "github:nix-community/plasma-manager";
       inputs.nixpkgs.follows = "nixpkgs";
+      inputs.home-manager.follows = "home-manager";
     };
   };
 
-  outputs = { self, nixpkgs, home-manager, disko, niri, ... }:
+  outputs = { self, nixpkgs, home-manager, disko, plasma-manager, ... }:
     let
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
@@ -36,13 +37,12 @@
             home-manager.useUserPackages = true;
             home-manager.users.raymond = import ./home/default.nix;
             home-manager.sharedModules = [
-              niri.homeModules.niri
+              plasma-manager.homeModules.plasma-manager
             ];
           }
         ];
       };
 
-      # Run: nix --extra-experimental-features "nix-command flakes" run github:rayone121/cobra-nix-config#install
       apps.${system}.install = let
         installer = pkgs.writeShellScriptBin "cobra-install" (builtins.readFile ./install.sh);
       in {

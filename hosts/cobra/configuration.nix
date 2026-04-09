@@ -43,11 +43,7 @@
   i18n.defaultLocale = "en_US.UTF-8";
 
   # ---------- Nix ----------
-  nix.settings = {
-    experimental-features = [ "nix-command" "flakes" ];
-    substituters = [ "https://niri.cachix.org" ];
-    trusted-public-keys = [ "niri.cachix.org-1:Wv0OmO7PsuocRKzfDoJ3mulSl7Z6oezYhGhR+3W2964=" ];
-  };
+  nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   # ---------- Users ----------
   users.users.raymond = {
@@ -57,18 +53,11 @@
     shell = pkgs.zsh;
   };
 
-  # ---------- Niri ----------
-  programs.niri.enable = true;
-
-  # ---------- Display / Login ----------
-  services.greetd = {
+  # ---------- KDE Plasma 6 ----------
+  services.desktopManager.plasma6.enable = true;
+  services.displayManager.sddm = {
     enable = true;
-    settings = {
-      default_session = {
-        command = "${pkgs.tuigreet}/bin/tuigreet --time --cmd niri-session";
-        user = "greeter";
-      };
-    };
+    wayland.enable = true;
   };
 
   # ---------- Audio (PipeWire) ----------
@@ -78,14 +67,6 @@
     pulse.enable = true;
     alsa.enable = true;
     alsa.support32Bit = true;
-  };
-
-  # ---------- XDG Portal ----------
-  xdg.portal = {
-    enable = true;
-    xdgOpenUsePortal = true;
-    config.common.default = "*";
-    extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
   };
 
   # ---------- SSH ----------

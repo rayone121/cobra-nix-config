@@ -30,14 +30,6 @@
 
   # ---------- Environment variables for Wayland + NVIDIA ----------
   environment.sessionVariables = {
-    # Force GBM backend for Wayland (required for NVIDIA)
-    GBM_BACKEND = "nvidia-drm";
-    __GLX_VENDOR_LIBRARY_NAME = "nvidia";
-
-    # Cursor fix for NVIDIA on Wayland
-    WLR_NO_HARDWARE_CURSORS = "1";
-    HYPRLAND_NO_HARDWARE_CURSORS = "1";
-
     # Electron / Chromium Wayland flags
     NIXOS_OZONE_WL = "1";
   };

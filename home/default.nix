@@ -3,9 +3,7 @@
 {
   imports = [
     ./zsh.nix
-    ./niri.nix
-    ./waybar.nix
-    ./theme.nix
+    ./plasma.nix
   ];
 
   home.username = "raymond";
@@ -88,19 +86,13 @@
 
   # ---------- Packages ----------
   home.packages = with pkgs; [
-    # Wayland / Niri utilities
+    # Wayland utilities
     libnotify
     wl-clipboard
     grim
     slurp
     pamixer
     pulsemixer
-
-    # App launcher
-    fuzzel
-
-    # File manager
-    nautilus
 
     # TUI tools
     bluetuith

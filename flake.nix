@@ -11,9 +11,13 @@
       url = "github:nix-community/disko";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    niri = {
+      url = "git+https://codeberg.org/BANanaD3V/niri-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
-  outputs = { self, nixpkgs, home-manager, disko, ... }:
+  outputs = { self, nixpkgs, home-manager, disko, niri, ... }:
     let
       system = "x86_64-linux";
       pkgs = nixpkgs.legacyPackages.${system};
@@ -23,6 +27,7 @@
         inherit system;
         modules = [
           disko.nixosModules.disko
+          niri.nixosModules.default
           ./hosts/cobra/disk.nix
           ./hosts/cobra/configuration.nix
           home-manager.nixosModules.home-manager
@@ -30,7 +35,12 @@
             nixpkgs.config.allowUnfree = true;
             home-manager.useGlobalPkgs = true;
             home-manager.useUserPackages = true;
-            home-manager.users.raymond = import ./home/default.nix;
+            home-manager.users.raymond = {
+              imports = [
+                niri.homeModules.default
+                ./home/default.nix
+              ];
+            };
           }
         ];
       };

@@ -13,16 +13,16 @@
     efiSupport = true;
     maxGenerations = 10;
     style = {
-      wallpapers = [ ./wallpaper.png ]; # place a wallpaper.png in this directory
+      wallpapers = [ ./wallpaper.png ];
       wallpaperStyle = "stretched";
       backdrop = "1e1e2e";
       interface = {
         branding = "  cobra";
-        brandingColor = 4; # blue
+        brandingColor = 4;
         helpHidden = true;
       };
       graphicalTerminal = {
-        background = "cc1e1e2e"; # semi-transparent
+        background = "cc1e1e2e";
         foreground = "cdd6f4";
         palette = "1e1e2e;f38ba8;a6e3a1;f9e2af;89b4fa;f5c2e7;94e2d5;cdd6f4";
         brightForeground = "cdd6f4";
@@ -53,18 +53,15 @@
     shell = pkgs.zsh;
   };
 
-  # ---------- Hyprland ----------
-  programs.hyprland = {
-    enable = true;
-    xwayland.enable = true;
-  };
+  # ---------- Niri ----------
+  programs.niri.enable = true;
 
   # ---------- Display / Login ----------
   services.greetd = {
     enable = true;
     settings = {
       default_session = {
-        command = "${pkgs.tuigreet}/bin/tuigreet --time --cmd Hyprland";
+        command = "${pkgs.tuigreet}/bin/tuigreet --time --cmd niri-session";
         user = "greeter";
       };
     };
@@ -80,8 +77,10 @@
   };
 
   # ---------- XDG Portal ----------
-  xdg.portal.enable = true;
-  # hyprland portal auto-added by programs.hyprland.enable
+  xdg.portal = {
+    enable = true;
+    extraPortals = [ pkgs.xdg-desktop-portal-gnome ];
+  };
 
   # ---------- SSH ----------
   services.openssh = {

@@ -3,13 +3,33 @@
 {
   imports = [
     ./zsh.nix
-    ./hyprland.nix
+    ./niri.nix
     ./waybar.nix
     ./theme.nix
   ];
 
   home.username = "raymond";
   home.homeDirectory = "/home/raymond";
+
+  # ---------- Kitty Terminal ----------
+  programs.kitty = {
+    enable = true;
+    font = {
+      name = "JetBrainsMono Nerd Font";
+      size = 12;
+    };
+    settings = {
+      background_opacity = "0.92";
+      window_padding_width = 12;
+      confirm_os_window_close = 0;
+      hide_window_decorations = "yes";
+      background = "#1e1e1e";
+      foreground = "#e0e0e0";
+      cursor = "#ffffff";
+      selection_background = "#3a3a3a";
+      selection_foreground = "#ffffff";
+    };
+  };
 
   # ---------- CLI Tools ----------
   programs.bat = {
@@ -70,7 +90,6 @@
   home.packages = with pkgs; [
     # Wayland / Niri utilities
     libnotify
-    awww
     wl-clipboard
     grim
     slurp
@@ -80,26 +99,11 @@
     # App launcher
     fuzzel
 
-    # Bar
-    waybar
-
-    # Notifications
-    dunst
-
-    # Terminal
-    kitty
-
     # File manager
     nautilus
 
     # TUI tools
     bluetuith
-
-    # Theming
-    matugen
-
-    # Dotfiles
-    stow
 
     # Misc CLI
     ripgrep
@@ -109,9 +113,6 @@
     btop
     fastfetch
   ];
-
-  # ~/.local/bin in PATH for stowed scripts
-  home.sessionPath = [ "$HOME/.local/bin" ];
 
   home.stateVersion = "25.05";
   programs.home-manager.enable = true;

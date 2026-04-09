@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # ============================================================
-#  Cobra NixOS Installer — raymond@cobra
+#  Cobra NixOS Installer -- raymond@cobra
 #  Partitions disk (disko), generates hardware config, installs.
 #  Run this from the NixOS live ISO.
 # ============================================================
@@ -56,10 +56,10 @@ cat << 'COBRA'
 COBRA
 echo -e "${NC}"
 echo -e "  ${BOLD}Cobra NixOS Installer${NC}"
-echo -e "  ${DIM}Hyprland + macOS style + Btrfs + Limine${NC}"
+echo -e "  ${DIM}Niri + macOS style + Btrfs + Limine${NC}"
 echo -e "  ${DIM}github.com/rayone121/cobra-nix-config${NC}"
 echo ""
-echo -e "  ${DIM}────────────────────────────────────${NC}"
+echo -e "  ${DIM}------------------------------------${NC}"
 echo ""
 
 # ============================================================
@@ -106,12 +106,12 @@ DISK_MODEL=$(lsblk -d -n -o MODEL "$DISK" | xargs)
 #  Confirm
 # ============================================================
 echo ""
-echo -e "  ${DIM}────────────────────────────────────${NC}"
+echo -e "  ${DIM}------------------------------------${NC}"
 echo ""
 echo -e "  User:      ${BOLD}raymond${NC}"
 echo -e "  Host:      ${BOLD}cobra${NC}"
 echo -e "  Timezone:  ${BOLD}Europe/Bucharest${NC}"
-echo -e "  Disk:      ${BOLD}${DISK}${NC} ${DIM}(${DISK_MODEL} — ${DISK_SIZE})${NC}"
+echo -e "  Disk:      ${BOLD}${DISK}${NC} ${DIM}(${DISK_MODEL} -- ${DISK_SIZE})${NC}"
 echo ""
 echo -e "  ${RED}${BOLD}WARNING: This will ERASE ALL DATA on ${DISK}${NC}"
 echo ""
@@ -161,9 +161,9 @@ ok "Disk set to ${DISK}"
 # ============================================================
 #  Run disko
 # ============================================================
-info "Running disko — partitioning and formatting ${DISK}..."
+info "Running disko -- partitioning and formatting ${DISK}..."
 nix --extra-experimental-features "nix-command flakes" run github:nix-community/disko -- --mode disko "$CONFIG_DIR/hosts/cobra/disk.nix"
-ok "Disko complete — mounted at /mnt"
+ok "Disko complete -- mounted at /mnt"
 
 # ============================================================
 #  Generate hardware config
@@ -202,28 +202,10 @@ git -C "${USER_CONFIG_DIR}" -c user.name="HEAPTRASH" -c user.email="raymond.enes
 ok "Config installed"
 
 # ============================================================
-#  Stow dotfiles (manual symlinks — stow not on live ISO)
-# ============================================================
-info "Linking dotfiles..."
-DOTFILES_DIR="${USER_CONFIG_DIR}/dotfiles"
-HOME_DIR="${INSTALL_DIR}/home/raymond"
-mkdir -p "${HOME_DIR}/.config" "${HOME_DIR}/.local/bin"
-for pkg in hyprland waybar kitty dunst fuzzel matugen oh-my-posh; do
-    if [[ -d "${DOTFILES_DIR}/${pkg}/.config" ]]; then
-        cp -rs "${DOTFILES_DIR}/${pkg}/.config/"* "${HOME_DIR}/.config/"
-    fi
-done
-# Scripts
-if [[ -d "${DOTFILES_DIR}/scripts/.local/bin" ]]; then
-    cp -rs "${DOTFILES_DIR}/scripts/.local/bin/"* "${HOME_DIR}/.local/bin/"
-fi
-ok "Dotfiles linked"
-
-# ============================================================
 #  Install NixOS
 # ============================================================
 echo ""
-echo -e "  ${DIM}────────────────────────────────────${NC}"
+echo -e "  ${DIM}------------------------------------${NC}"
 echo ""
 info "Installing NixOS (this will take a while)..."
 echo ""
@@ -273,19 +255,19 @@ COBRA
 echo -e "${NC}"
 echo -e "  ${GREEN}${BOLD}Installation complete!${NC}"
 echo ""
-echo -e "  ${DIM}────────────────────────────────────${NC}"
+echo -e "  ${DIM}------------------------------------${NC}"
 echo ""
 echo -e "  User:      ${BOLD}raymond${NC}"
 echo -e "  Host:      ${BOLD}cobra${NC}"
 echo -e "  Timezone:  ${BOLD}Europe/Bucharest${NC}"
-echo -e "  Disk:      ${BOLD}${DISK}${NC} ${DIM}(${DISK_MODEL} — ${DISK_SIZE})${NC}"
+echo -e "  Disk:      ${BOLD}${DISK}${NC} ${DIM}(${DISK_MODEL} -- ${DISK_SIZE})${NC}"
 echo -e "  CPU:       ${BOLD}${CPU_UCODE}${NC}"
 echo -e "  FS:        ${BOLD}btrfs${NC} ${DIM}(@, @home, @nix, @log, @snapshots)${NC}"
 echo -e "  Boot:      ${BOLD}Limine${NC} ${DIM}(Catppuccin Mocha)${NC}"
-echo -e "  Desktop:   ${BOLD}Hyprland${NC} ${DIM}(macOS-style)${NC}"
+echo -e "  Desktop:   ${BOLD}Niri${NC} ${DIM}(macOS-style)${NC}"
 echo -e "  Config:    ${BOLD}~/.config/nixos${NC}"
 echo ""
-echo -e "  ${DIM}────────────────────────────────────${NC}"
+echo -e "  ${DIM}------------------------------------${NC}"
 echo ""
 echo -e "  Run ${CYAN}${BOLD}reboot${NC} to start your new system."
 echo ""

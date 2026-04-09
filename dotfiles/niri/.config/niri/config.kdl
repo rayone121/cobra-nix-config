@@ -1,3 +1,6 @@
+// Matugen colors (overrides focus-ring/border when generated)
+include "colors.kdl"
+
 // ============================================
 // Niri compositor configuration
 // ============================================

@@ -1,0 +1,28 @@
+[config.wallpaper]
+command = "swaybg"
+arguments = ["-i"]
+set = true
+
+[templates.kitty]
+input_path = "~/.config/matugen/templates/kitty.conf"
+output_path = "~/.config/kitty/colors.conf"
+post_hook = "pkill -SIGUSR1 kitty"
+
+[templates.waybar]
+input_path = "~/.config/matugen/templates/waybar.css"
+output_path = "~/.config/waybar/colors.css"
+post_hook = "pkill -SIGUSR2 waybar"
+
+[templates.niri]
+input_path = "~/.config/matugen/templates/niri.kdl"
+output_path = "~/.config/niri/colors.kdl"
+post_hook = "niri msg action do-screen-transition && niri msg action reload-config-file"
+
+[templates.dunst]
+input_path = "~/.config/matugen/templates/dunst.conf"
+output_path = "~/.config/dunst/colors.conf"
+post_hook = "dunstctl reload"
+
+[templates.fuzzel]
+input_path = "~/.config/matugen/templates/fuzzel.ini"
+output_path = "~/.config/fuzzel/colors.ini"

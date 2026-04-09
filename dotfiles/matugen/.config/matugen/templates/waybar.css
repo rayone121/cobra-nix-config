@@ -1,0 +1,9 @@
+@define-color bg @{surface.dark.hex};
+@define-color fg @{on_surface.dark.hex};
+@define-color accent @{primary.dark.hex};
+@define-color accent_bg @{primary_container.dark.hex};
+@define-color accent_fg @{on_primary_container.dark.hex};
+@define-color surface @{surface_container.dark.hex};
+@define-color outline @{outline.dark.hex};
+@define-color error @{error.dark.hex};
+@define-color warning @{secondary.dark.hex};

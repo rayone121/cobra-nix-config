@@ -109,6 +109,8 @@
     dunst
     swaylock
     swayidle
+    matugen
+    swaybg
     grim
     slurp
     lazydocker
@@ -117,6 +119,8 @@
     stow
     waybar
   ];
+
+  home.sessionPath = [ "$HOME/.local/bin" ];
 
   home.stateVersion = "25.05";
   programs.home-manager.enable = true;

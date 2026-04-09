@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+# Set wallpaper and regenerate all colors from it
+set -euo pipefail
+
+if [[ $# -eq 0 ]]; then
+    echo "Usage: wall <image>"
+    echo "Sets wallpaper and generates Material You colors for all apps."
+    exit 1
+fi
+
+IMAGE="$(realpath "$1")"
+[[ -f "$IMAGE" ]] || { echo "File not found: $IMAGE"; exit 1; }
+
+echo "Generating colors from: $IMAGE"
+matugen image "$IMAGE" -m dark
+echo "Done!"

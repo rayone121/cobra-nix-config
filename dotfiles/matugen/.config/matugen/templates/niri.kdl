@@ -1,0 +1,10 @@
+layout {
+    border {
+        active-color "@{primary.dark.hex}"
+        inactive-color "@{outline_variant.dark.hex}"
+    }
+    focus-ring {
+        active-color "@{primary.dark.hex}"
+        inactive-color "@{outline.dark.hex}"
+    }
+}

@@ -11,7 +11,6 @@ awww_options = [
 [config.reload_apps_list]
 waybar = true
 kitty = true
-dunst = true
 gtk_theme = false
 
 [templates.waybar-colors]
@@ -21,13 +20,8 @@ post_hook = "pkill -SIGUSR2 waybar"
 
 [templates.kitty-colors]
 input_path = "~/.config/matugen/templates/kitty-colors.conf"
-output_path = "~/.config/kitty/themes/Matugen.conf"
-post_hook = "kitty +kitten themes --reload-in=all Matugen"
-
-[templates.dunst-colors]
-input_path = "~/.config/matugen/templates/dunst-colors.conf"
-output_path = "~/.config/dunst/colors.conf"
-post_hook = "dunstctl reload"
+output_path = "~/.config/kitty/colors.conf"
+post_hook = "pkill -SIGUSR1 kitty"
 
 [templates.fuzzel-colors]
 input_path = "~/.config/matugen/templates/fuzzel-colors.ini"
